@@ -1,0 +1,767 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bog'lanish | GreenHerb Online Do'koni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Contact Page Styles */
+        body {
+            background: #f8fbf9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: #333;
+            line-height: 1.7;
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .contact-hero {
+            background: linear-gradient(135deg, rgba(47, 111, 78, 0.95), rgba(60, 138, 95, 0.9)), url('https://images.unsplash.com/photo-1578301978018-3005759f48f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .contact-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        /* Contact Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+        
+        @media (max-width: 992px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        
+        /* Contact Info */
+        .contact-info {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8f4ee;
+        }
+        
+        .contact-info h2 {
+            color: #2f6f4e;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e8f4ee;
+        }
+        
+        .info-items {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            background: #f8fbf9;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #e8f4ee;
+        }
+        
+        .info-item:hover {
+            background: #e8f4ee;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(47, 111, 78, 0.1);
+        }
+        
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2f6f4e, #3c8a5f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .info-content h3 {
+            color: #2f6f4e;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+        
+        .info-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+        
+        .info-content a {
+            color: #2f6f4e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .info-content a:hover {
+            color: #3c8a5f;
+            text-decoration: underline;
+        }
+        
+        /* Social Links */
+        .social-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e8f4ee;
+        }
+        
+        .social-section h3 {
+            color: #2f6f4e;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: #f8fbf9;
+            border-radius: 10px;
+            color: #2f6f4e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #e8f4ee;
+        }
+        
+        .social-link:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Contact Form */
+        .contact-form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: 2px solid #2f6f4e;
+        }
+        
+        .contact-form-card h2 {
+            color: #2f6f4e;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2f6f4e;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e8f4ee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fbf9;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #2f6f4e;
+            box-shadow: 0 0 0 3px rgba(47, 111, 78, 0.1);
+            background: white;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(47, 111, 78, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(47, 111, 78, 0.4);
+            background: linear-gradient(135deg, #3c8a5f 0%, #2f6f4e 100%);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: 80px;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8f4ee;
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            color: #2f6f4e;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .faq-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(to right, #2f6f4e, #3c8a5f);
+            border-radius: 2px;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .faq-item {
+            background: #f8fbf9;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #e8f4ee;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: #2f6f4e;
+            box-shadow: 0 10px 25px rgba(47, 111, 78, 0.1);
+        }
+        
+        .faq-question {
+            color: #2f6f4e;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .faq-question i {
+            color: #3c8a5f;
+            font-size: 1.2rem;
+        }
+        
+        .faq-answer {
+            color: #666;
+            line-height: 1.7;
+            padding-left: 35px;
+        }
+        
+        /* Map Section */
+        .map-section {
+            margin-bottom: 80px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8f4ee;
+        }
+        
+        .map-section h2 {
+            color: #2f6f4e;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+        
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            height: 400px;
+            background: #e8f4ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2f6f4e;
+            font-size: 1.2rem;
+        }
+        
+        /* Business Hours */
+        .hours-section {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .hours-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hour-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .hour-item .day {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .hour-item .time {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info, 
+            .contact-form-card,
+            .faq-section,
+            .map-section {
+                padding: 30px;
+            }
+            
+            .hours-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Online do'koni</h1>
+        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+        <a href="{% url 'shop:contact' %}" style="background: #e8f4ee; color: #2f6f4e; border-radius: 5px;">
+            <i class="fas fa-envelope"></i> Bog'lanish
+        </a>
+    </nav>
+
+    <div class="contact-container">
+        <!-- HERO SECTION -->
+        <section class="contact-hero">
+            <div class="contact-hero-content">
+                <h1>Bog'lanish</h1>
+                <p>Sog'lom hayot sari yo'lingizda sizga yordam berish uchun shu yerdamiz. Har qanday savol yoki sog'liqda muommolar bo'lsa, biz bilan bog'laning</p>
+                <div style="margin-top: 40px;">
+                    <a href="#contact-form" class="submit-btn" style="width: auto; display: inline-block;">
+                        <i class="fas fa-paper-plane"></i> Xabar Yozish
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT LAYOUT -->
+        <div class="contact-layout">
+            <!-- Left: Contact Info -->
+            <div class="contact-info">
+                <h2>Bog'lanish Malumotlari</h2>
+                
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Manzilimiz</h3>
+                            <p>20-uy Bo'rbonliq qishlog'i</p>
+                            <p>Oltiariq tumani</p>
+                            <p>Farg'ona Viloyati</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Telefon raqamlar</h3>
+                            <p><a href="tel:+998972100441">+998 97 210-04-41</a> - Mutaxassis</p>
+                            <p><a href="tel:+998880337333">+998 88 033-73-33</a> - Texnik xizmat</p>
+                            <p>Dushanba-Seshanba, 08:00dan 20:00gacha</p>
+                            <p>Qolgan kunlar - 18:00dan 20:00gacha</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Email Address</h3>
+                            <p><a href="mailto:info@greenherbstore.com">info@greenherbstore.com</a> - Umumiy Savollar</p>
+                            <p><a href="mailto:support@greenherbstore.com">support@greenherbstore.com</a> - Mijozlarni qo'llab-quvvatlash</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="social-section">
+                    <h3>Bizga obuna bo'ling</h3>
+                    <div class="social-links">
+                        
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Contact Form -->
+            <div class="contact-form-card" id="contact-form">
+                <h2>Xabar Yozish</h2>
+                <form method="POST" action="#">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> To'liq Ism *</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Ismingiz" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address *</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Telefon raqam</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="+998 ... ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject"><i class="fas fa-tag"></i> Mavzu *</label>
+                        <select id="subject" name="subject" class="form-control" required>
+                            <option value="">Mavzuni tanlang</option>
+                            <option value="general">Umumiy savollar</option>
+                            <option value="product">Mahsulotga oid savol</option>
+                            <option value="order">Buyurtmaga oid savol</option>
+                            <option value="shipping">Yetkazib berishga oid savol</option>
+                            <option value="wholesale">Hamkorlik bo'yicha savol</option>
+                            <option value="other">Boshqa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment"></i> Sizning Xabar *</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="Qanday yordam bera olaman?" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Yuborish
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- BUSINESS HOURS -->
+        <section class="hours-section">
+            <h2><i class="fas fa-clock"></i> Business soatlar</h2>
+            <div class="hours-grid">
+                <div class="hour-item">
+                    <div class="day">Dushanba - Seshanba</div>
+                    <div class="time">8:00 dan - 20:00 gacha</div>
+                </div>
+                <div class="hour-item">
+                    <div class="day">Chorshanba - Yakshanba</div>
+                    <div class="time">18:00 dan - 20:00 gacha</div>
+                </div>
+                
+                <div class="hour-item">
+                    <div class="day">24/7 Qo'llab-quvvatlash</div>
+                    <div class="time">Email & Online Chat</div>
+                </div>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.9;">* Bayram kunlarida ish vaqtlari o'zgarishi mumkin. Asosiy bayramlarda yopiq bo'lamiz.</p>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq-section">
+            <h2>Tez-tez so'raladigan savollar</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Qanday qilib buyurtma qilsam bo'ladi?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Buyurtmalarni to'g'ridan-to'g'ri veb-saytimiz orqali berishingiz mumkin. Mahsulotlarni ko'rib chiqing, ularni savatchaga qo'shing va to'lovga o'ting. Yordam kerakmi? Mijozlarga xizmat ko'rsatish bo'limimizga +998 88 033 73 33 raqami orqali qo'ng'iroq qiling.
+                    </p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Mahsulotni qaytarish siyosatingiz qanday?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Biz 10 kunlik qoniqish kafolatini taqdim etamiz. Agar xaridingizdan to'liq mamnun bo'lmasangiz, mahsulotni 10 kun ichida to'liq pulni qaytarish yoki almashtirish uchun qaytarishingiz mumkin.
+                    </p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Chet el mahsulotlari ham bormi?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Ha, albatta! Bizda chet eldan keltirilgan mahsulotlar ham mavjud. Ular sifat va xavfsizlik talablariga to'liq javob beradi. Mavjud mahsulotlar haqida batafsil ma'lumot olish uchun biz bilan bog'lanishingiz mumkin.
+                    </p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Mahsulotlaringiz tabiiymi?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Barcha mahsulotlarimiz 100% tabiiy bo'lib, ularning aksariyati organik sertifikatga ega. Har bir mahsulot sahifasida tegishli sertifikatlar ko'rsatilgan. Biz sof va yuqori sifatli ingredientlarga sodiqmiz.
+                    </p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Buyurtmamni qanday kuzatishim mumkin?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Buyurtmangiz tarqatish manziliga yetib borgach, telefon raqamingizga qo'ng'iroq qilinadi yoki xaabar yuboriladi. Shuningdek, veb-saytimizdagi akkauntingizga kirib, buyurtmangiz holatini kuzatishingiz mumkin.
+                    </p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Sizda aksiyalar bo'ladimi?</span>
+                    </div>
+                    <p class="faq-answer">
+                        Ha, biz mos keladigan bizneslar, sog'lomlashtirish markazlari va mutaxassislar uchun ulgurji narxlarni taklif qilamiz.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP SECTION -->
+        <section class="map-section">
+            <h2><i class="fas fa-map"></i> Bizning do'konga tashrif buyuring</h2>
+            <div class="map-container">
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-map-marker-alt" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                    <h3 style="color: #2f6f4e; margin-bottom: 15px;">GreenHerb Do'koni Joylashuvi</h3>
+                    <p>20 Bo'rbonliq qishlog'i, Oltiariq tumani</p>
+                    <p style="margin-top: 20px; font-style: italic;">40.322215, 71.369744</p>
+                    <a href="https://maps.google.com" target="_blank" style="display: inline-block; margin-top: 20px; padding: 12px 25px; background: #2f6f4e; color: white; text-decoration: none; border-radius: 8px;">
+                        <i class="fas fa-directions"></i> Yo'nalishni Olish
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 50px 20px; margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Online do'koni</h3>
+                    <p style="opacity: 0.9; font-size: 1.1rem;">Tabiiy dorivor o'simliklar bo'yicha ishonchli manbangiz</p>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <a href="{% url 'shop:home' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease;">
+                        <i class="fas fa-home"></i> Bosh Sahifa
+                    </a>
+                    <a href="{% url 'shop:product_list' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease;">
+                        <i class="fas fa-leaf"></i> Mahsulotlar
+                    </a>
+                    <a href="{% url 'shop:contact' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 8px; transition: all 0.3s ease;">
+                        <i class="fas fa-envelope"></i> Bog'lanish
+                    </a>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">Mijozlarni Qo'llab-quvvatlash</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="tel:+15551234567" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-phone"></i> +998 97 210-04-41
+                        </a></li>
+                        <li><a href="mailto:support@greenherbstore.com" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-envelope"></i> support@greenherbstore.com
+                        </a></li>
+                        <li style="color: white; opacity: 0.8; margin-bottom: 10px;">
+                            <i class="fas fa-clock"></i> 8:00-20:00, Du-Se
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">Tezkor Havolalar</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="{% url 'shop:about' %}" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-info-circle"></i> Biz Haqimizda
+                        </a></li>
+                        <li><a href="#" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-shipping-fast"></i> Yetkazish ma'lumotlari
+                        </a></li>
+                        <li><a href="#" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-exchange-alt"></i> Qaytarish va Almashtirish
+                        </a></li>
+                        <li><a href="#" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">
+                            <i class="fas fa-lock"></i> Maxfiylik siyosati
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">A'loqada bo'ling</h4>
+                    <p style="color: white; opacity: 0.8; margin-bottom: 15px;">Sog'lom turmush bo'yicha maslahatlar va maxsus takliflardan xabardor bo'lish uchun obuna bo'ling!</p>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="email" placeholder="Emailingizni kiriting" style="flex-grow: 1; padding: 12px; border: none; border-radius: 5px; font-size: 0.9rem; background: rgba(255,255,255,0.9);">
+                        <button style="background: white; color: #2f6f4e; border: none; padding: 12px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fas fa-paper-plane"></i> Obuna bo'ling
+                        </button>
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        
+                        <a href="https://instagram.com/sardorize_" style="color: white; opacity: 0.8; font-size: 1.3rem; transition: opacity 0.3s ease;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://t.me/sardorize" style="color: white; opacity: 0.8; font-size: 1.3rem; transition: opacity 0.3s ease;">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 30px; border-top: 2px solid rgba(255,255,255,0.2);">
+                <p style="font-size: 1.1rem;">© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

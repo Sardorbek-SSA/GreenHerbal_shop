@@ -1,0 +1,644 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ herbal.name }} | GreenHerb Online Do'koni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Product Detail Styles - Professional Layout */
+        body {
+            background: #f8fbf9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .product-detail-wrapper {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb-nav {
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .breadcrumb-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb-links a {
+            color: #2f6f4e;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .breadcrumb-links a:hover {
+            background: #e8f4ee;
+            color: #2f6f4e;
+        }
+        
+        .breadcrumb-links .separator {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .current-product {
+            font-weight: 600;
+            color: #2f6f4e;
+            padding: 5px 10px;
+            background: #f0f7f3;
+            border-radius: 5px;
+        }
+        
+        /* Main Product Layout - Professional Grid */
+        .product-main-layout {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        @media (max-width: 1100px) {
+            .product-main-layout {
+                grid-template-columns: 50% 50%;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-main-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        /* Left Column - Product Image */
+        .product-image-section {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+        
+        .product-image-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0f0e8;
+        }
+        
+        .main-product-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        /* Right Column - Product Info */
+        .product-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .product-header {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0f0e8;
+        }
+        
+        .product-title {
+            color: #2a6146;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .product-price-tag {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #2f6f4e;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8fbf9 0%, #e8f4ee 100%);
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #d0e8db;
+        }
+        
+        .product-description-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0f0e8;
+        }
+        
+        .product-description-card h3 {
+            color: #2f6f4e;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f4ee;
+        }
+        
+        .product-description-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        /* Features Card */
+        .features-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0f0e8;
+        }
+        
+        .features-card h3 {
+            color: #2f6f4e;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fbf9;
+            border-radius: 8px;
+            border: 1px solid #e8f4ee;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: #e8f4ee;
+            transform: translateY(-2px);
+        }
+        
+        .feature-item i {
+            color: #2f6f4e;
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+        
+        /* Add to Cart Card */
+        .add-to-cart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 2px solid #2f6f4e;
+            margin-top: 10px;
+        }
+        
+        .add-to-cart-card h3 {
+            color: #2f6f4e;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .cart-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8fbf9;
+            border-radius: 10px;
+            border: 1px solid #e0f0e8;
+        }
+        
+        .quantity-label {
+            font-weight: 600;
+            color: #2f6f4e;
+            font-size: 1.1rem;
+        }
+        
+        .quantity-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-input {
+            width: 80px;
+            padding: 12px;
+            border: 2px solid #e0f0e8;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2f6f4e;
+            text-align: center;
+            background: white;
+        }
+        
+        .quantity-input:focus {
+            outline: none;
+            border-color: #2f6f4e;
+            box-shadow: 0 0 0 3px rgba(47, 111, 78, 0.1);
+        }
+        
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(47, 111, 78, 0.3);
+            background: linear-gradient(135deg, #3c8a5f 0%, #2f6f4e 100%);
+        }
+        
+        /* Related Products */
+        .related-products-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #e8f4ee;
+        }
+        
+        .related-products-section h2 {
+            text-align: center;
+            color: #2f6f4e;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .related-products-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #2f6f4e, #3c8a5f);
+            border-radius: 2px;
+        }
+        
+        .related-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .related-product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid #e8f4ee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .related-product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(47, 111, 78, 0.12);
+        }
+        
+        .related-product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .related-product-title {
+            color: #2f6f4e;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+        
+        .related-product-price {
+            font-weight: 700;
+            color: #2f6f4e;
+            margin: 15px 0;
+            font-size: 1.3rem;
+        }
+        
+        .related-add-btn {
+            padding: 12px;
+            background: #e8f4ee;
+            color: #2f6f4e;
+            border: 2px solid #2f6f4e;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: auto;
+        }
+        
+        .related-add-btn:hover {
+            background: #2f6f4e;
+            color: white;
+        }
+        
+        /* Footer */
+        .product-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 2px solid #e8f4ee;
+        }
+        
+        .product-footer-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .product-footer-content h3 {
+            color: #2f6f4e;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid #e8f4ee;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            background: #e8f4ee;
+            border-color: #2f6f4e;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Online do'koni</h1>
+        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+    </nav>
+
+    <div class="product-detail-wrapper">
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb-nav">
+            <div class="breadcrumb-links">
+                <a href="{% url 'shop:home' %}">
+                    <i class="fas fa-home"></i> Bosh sahifa
+                </a>
+                <span class="separator">›</span>
+                <a href="{% url 'shop:product_list' %}">
+                    <i class="fas fa-leaf"></i> Mahsulotlar
+                </a>
+                <span class="separator">›</span>
+                <span class="current-product">{{ herbal.name }}</span>
+            </div>
+        </div>
+
+        <!-- Main Product Content -->
+        <div class="product-main-layout">
+            <!-- Left Column: Product Image -->
+            <div class="product-image-section">
+                <div class="product-image-card">
+                    <img src="{{ herbal.image.url }}" alt="{{ herbal.name }}" class="main-product-image">
+                </div>
+            </div>
+            
+            <!-- Right Column: Product Information -->
+            <div class="product-info-section">
+                <!-- Product Header -->
+                <div class="product-header">
+                    <h1 class="product-title">{{ herbal.name }}</h1>
+                    <div class="product-price-tag">${{ herbal.price }}</div>
+                </div>
+                
+                <!-- Product Description -->
+                <div class="product-description-card">
+                    <h3><i class="fas fa-info-circle"></i> Mahsulot Ta'rifi</h3>
+                    <div class="product-description-content">
+                        {{ herbal.description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                <div class="features-card">
+                    <h3><i class="fas fa-star"></i> Asosiy Xususiyatlari</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-seedling"></i>
+                            <span>100% Tabiiy</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Axloqiy tamoyillarga asoslangan holda yetishtirilgan</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-ban"></i>
+                            <span>Hech qanday qo'shimchasiz</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-flask"></i>
+                            <span>Laboratoriyada sinovdan o'tkazilgan</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-recycle"></i>
+                            <span>Ekologik toza</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Hayvonlar ustida sinovdan o'tkazilmagan</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-award"></i>
+                            <span>Yuqori Sifat</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Tezkor yetkazib berish</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add to Cart -->
+                <div class="add-to-cart-card">
+                    <h3><i class="fas fa-shopping-cart"></i> Savatga Qo'shish</h3>
+                    <form method="POST" action="{% url 'shop:add_to_cart' herbal.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="shop:product_detail">
+                        
+                        <div class="cart-controls">
+                            <div class="quantity-selector">
+                                <span class="quantity-label">Miqdori:</span>
+                                <div class="quantity-input-group">
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99" class="quantity-input">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="add-to-cart-btn">
+                                <i class="fas fa-cart-plus"></i> Savatga Qo'shish - {{ herbal.price }}so'm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        {% if related_products %}
+        <section class="related-products-section">
+            <h2>Related Products</h2>
+            <div class="related-products-grid">
+                {% for related in related_products %}
+                <div class="related-product-card">
+                    <a href="{% url 'shop:product_detail' related.id %}">
+                        <img src="{{ related.image.url }}" alt="{{ related.name }}" class="related-product-image">
+                    </a>
+                    <h4 class="related-product-title">{{ related.name }}</h4>
+                    <div class="related-product-price">${{ related.price }}</div>
+                    <form method="POST" action="{% url 'shop:add_to_cart' related.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="shop:product_detail">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="related-add-btn">
+                            <i class="fas fa-cart-plus"></i> Savatga Qo'shish
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="product-footer">
+            <div class="product-footer-content">
+                <h3><i class="fas fa-leaf"></i> GreenHerb Online do'koni</h3>
+                <p>Sog'lom hayot sari yo'lingiz uchun yuqori sifatli tabiiy dorivor o'simlik mahsulotlarini taqdim etamiz.</p>
+                <div class="footer-links">
+                    <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
+                    <a href="{% url 'shop:product_list' %}">Barcha Mahsulotlar</a>
+                    <a href="{% url 'shop:cart_view' %}">Savat</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN FOOTER -->
+    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 10px;">GreenHerb Online do'koni</h3>
+                    <p style="opacity: 0.9;">2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    
+                    <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

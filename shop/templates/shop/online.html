@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>To'lov | GreenHerb Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f9f7;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .back-link {
+            color: #2f6f4e;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payment-header h1 {
+            color: #2f6f4e;
+        }
+        
+        .amount-box {
+            background: #f0f7f3;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #2f6f4e;
+        }
+        
+        .amount-box h2 {
+            color: #d32f2f;
+            margin: 10px 0;
+        }
+        
+        .payment-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2f6f4e;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .phone-input {
+            display: flex;
+        }
+        
+        .phone-prefix {
+            background: #eee;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .phone-input input {
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            padding: 18px;
+            background: #2f6f4e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .pay-btn:hover {
+            background: #3c8a5f;
+        }
+        
+        .cancel-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #2f6f4e;
+            text-decoration: none;
+        }
+        
+        .payment-method {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .payment-icon {
+            font-size: 3rem;
+            color: #2f6f4e;
+        }
+        
+        .payment-name {
+            font-size: 1.5rem;
+            color: #2f6f4e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'shop:checkout' %}" class="back-link">
+            ← Orqaga
+        </a>
+        
+        <div class="payment-header">
+            <div class="payment-method">
+                <div class="payment-icon">
+                    {% if payment_method == 'click' %}
+                    📱
+                    {% elif payment_method == 'payme' %}
+                    💳
+                    {% elif payment_method == 'uzum' %}
+                    ⚡
+                    {% endif %}
+                </div>
+                <div class="payment-name">
+                    {% if payment_method == 'click' %}
+                    Click
+                    {% elif payment_method == 'payme' %}
+                    Payme
+                    {% elif payment_method == 'uzum' %}
+                    Uzum
+                    {% endif %}
+                    orqali to'lash
+                </div>
+            </div>
+        </div>
+        
+        <div class="amount-box">
+            <p>To'lov summasi:</p>
+            <h2>{{ total|floatformat:0 }} so'm</h2>
+            <p>Buyurtma raqami: {{ order_id }}</p>
+        </div>
+        
+        <form class="payment-form" method="POST">
+            {% csrf_token %}
+            
+            {% if payment_method == 'click' %}
+            <div class="form-group">
+                <label>Telefon raqamingiz:</label>
+                <div class="phone-input">
+                    <div class="phone-prefix">+998</div>
+                    <input type="text" name="phone" placeholder="90 123 45 67" required>
+                </div>
+            </div>
+            {% else %}
+            <div class="form-group">
+                <label>Karta raqami:</label>
+                <input type="text" name="card_number" placeholder="8600 1234 5678 9012" required>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div style="flex: 1;">
+                    <label>Muddati (MM/YY):</label>
+                    <input type="text" name="expiry_date" placeholder="12/25" required>
+                </div>
+                <div style="flex: 1;">
+                    <label>CVV:</label>
+                    <input type="text" name="cvv" placeholder="123" required>
+                </div>
+            </div>
+            {% endif %}
+            
+            <button type="submit" class="pay-btn">
+                {{ total|floatformat:0 }} so'm to'lash
+            </button>
+        </form>
+        
+        <a href="{% url 'shop:checkout' %}" class="cancel-btn">
+            Bekor qilish
+        </a>
+    </div>
+</body>
+</html>

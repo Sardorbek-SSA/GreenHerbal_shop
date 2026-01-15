@@ -1,0 +1,617 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Buyurtma berish | GreenHerb Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Checkout Styles */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .checkout-header h1 {
+            color: #2f6f4e;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 50px;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background: #e8f4ee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2f6f4e;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid #2f6f4e;
+        }
+        
+        .step.active .step-icon {
+            background: #2f6f4e;
+            color: white;
+        }
+        
+        .step-text {
+            color: #666;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 50px;
+        }
+        
+        @media (max-width: 992px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            border: 1px solid #e8f4ee;
+        }
+        
+        .form-section h2 {
+            color: #2f6f4e;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8f4ee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2f6f4e;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e8f4ee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fbf9;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #2f6f4e;
+            box-shadow: 0 0 0 3px rgba(47,111,78,0.1);
+            background: white;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Pickup Points */
+        .pickup-points {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .pickup-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            border: 2px solid #e8f4ee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pickup-point:hover {
+            border-color: #2f6f4e;
+            background: #f8fbf9;
+        }
+        
+        .pickup-point input[type="radio"] {
+            margin-top: 5px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .pickup-icon {
+            font-size: 1.8rem;
+            color: #2f6f4e;
+            margin-top: 5px;
+        }
+        
+        .pickup-info h4 {
+            color: #2f6f4e;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .pickup-info p {
+            color: #666;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .pickup-info .hours {
+            color: #2f6f4e;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 2px solid #e8f4ee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: #2f6f4e;
+            background: #f8fbf9;
+        }
+        
+        .payment-method input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            color: #2f6f4e;
+        }
+        
+        .payment-info h4 {
+            color: #2f6f4e;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .payment-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            position: sticky;
+            top: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 2px solid #2f6f4e;
+        }
+        
+        .order-summary h2 {
+            color: #2f6f4e;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8f4ee;
+        }
+        
+        .order-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e8f4ee;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-info h4 {
+            color: #2f6f4e;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .item-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .item-price {
+            font-weight: 600;
+            color: #2f6f4e;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        
+        .summary-row.total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2f6f4e;
+            border-top: 2px solid #e8f4ee;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+        
+        .free-shipping {
+            background: #f0f7f3;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #2f6f4e;
+        }
+        
+        .free-shipping p {
+            color: #2f6f4e;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(47,111,78,0.3);
+        }
+        
+        .place-order-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(47,111,78,0.4);
+            background: linear-gradient(135deg, #3c8a5f 0%, #2f6f4e 100%);
+        }
+        
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #2f6f4e;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Store</h1>
+        <p>Tabiiy o'simlik dorilari</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh sahifa</a>
+        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz haqimizda</a>
+        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Aloqa</a>
+    </nav>
+
+    <div class="checkout-container">
+        <!-- Orqaga qaytish -->
+        <a href="{% url 'shop:cart_view' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Savatga qaytish
+        </a>
+        
+        <!-- Sarlavha -->
+        <div class="checkout-header">
+            <h1>Buyurtma berish</h1>
+            <p>Bir necha bosqichda buyurtmangizni rasmiylashtiring</p>
+        </div>
+        
+        <!-- Bosqichlar -->
+        <div class="checkout-steps">
+            <div class="step active">
+                <div class="step-icon">1</div>
+                <span class="step-text">Ma'lumotlar</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <span class="step-text">To'lov</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <span class="step-text">Tasdiqlash</span>
+            </div>
+        </div>
+        
+        <!-- Buyurtma formasi -->
+        <form method="POST" action="{% url 'shop:checkout' %}">
+            {% csrf_token %}
+            
+            <div class="checkout-layout">
+                <!-- Chap: Formalar -->
+                <div>
+                    <!-- Kontakt ma'lumotlari -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-user"></i> Kontakt ma'lumotlari</h2>
+                        
+                        <div class="form-group">
+                            <label for="full_name">To'liq ismingiz *</label>
+                            <input type="text" id="full_name" name="full_name" class="form-control" required 
+                                   placeholder="Ism Familiya">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Telefon raqamingiz *</label>
+                                <input type="tel" id="phone" name="phone" class="form-control" required 
+                                       placeholder="+998 XX XXX XX XX">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email (ixtiyoriy)</label>
+                                <input type="email" id="email" name="email" class="form-control" 
+                                       placeholder="email@example.com">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Olib ketish punkti -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-map-marker-alt"></i> Olib ketish punkti</h2>
+                        
+                        <div class="pickup-points">
+                            {% for point in pickup_points %}
+                            <label class="pickup-point">
+                                <input type="radio" name="pickup_point" value="{{ point.id }}" 
+                                       {% if forloop.first %}checked{% endif %} required>
+                                <div class="pickup-icon">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <div class="pickup-info">
+                                    <h4>{{ point.name }}</h4>
+                                    <p>{{ point.address }}</p>
+                                    <p><i class="fas fa-phone"></i> {{ point.phone }}</p>
+                                    <p class="hours"><i class="fas fa-clock"></i> {{ point.working_hours }}</p>
+                                    {% if point.description %}
+                                    <p style="font-size: 0.85rem; color: #888;">{{ point.description }}</p>
+                                    {% endif %}
+                                </div>
+                            </label>
+                            {% empty %}
+                            <div style="text-align: center; padding: 20px; color: #666;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <p>Hozirda olib ketish punktlari mavjud emas. Iltimos, keyinroq urinib ko'ring.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- To'lov usuli -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-credit-card"></i> To'lov usuli</h2>
+                        
+                        <div class="payment-methods">
+                            <!-- Naqd to'lov -->
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="cash_pickup" checked required>
+                                <div class="payment-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>Naqd to'lov (Olib ketishda)</h4>
+                                    <p>Mahsulotni olib ketish vaqtida naqd pul bilan to'lash</p>
+                                </div>
+                            </label>
+                            
+                            <!-- Click -->
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="click" required>
+                                <div class="payment-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>Click</h4>
+                                    <p>Click ilovasi orqali to'lov qilish</p>
+                                </div>
+                            </label>
+                            
+                            <!-- Payme -->
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="payme" required>
+                                <div class="payment-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>Payme</h4>
+                                    <p>Payme ilovasi orqali to'lov qilish</p>
+                                </div>
+                            </label>
+                            
+                            <!-- Uzum -->
+                            <label class="payment-method">
+                                <input type="radio" name="payment_method" value="uzum" required>
+                                <div class="payment-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="payment-info">
+                                    <h4>Uzum</h4>
+                                    <p>Uzum bank ilovasi orqali to'lov qilish</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Qo'shimcha eslatmalar -->
+                    <div class="form-section">
+                        <h2><i class="fas fa-sticky-note"></i> Qo'shimcha eslatmalar (ixtiyoriy)</h2>
+                        
+                        <div class="form-group">
+                            <textarea id="notes" name="notes" class="form-control" 
+                                      placeholder="Buyurtmangiz uchun qo'shimcha talab yoki eslatmalaringizni yozing..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- O'ng: Buyurtma xulosasi -->
+                <div class="order-summary">
+                    <h2>Buyurtma xulosasi</h2>
+                    
+                    <div class="order-items">
+                        {% for product_id, item in cart.items %}
+                        <div class="order-item">
+                            <div class="item-info">
+                                <h4>{{ item.name }}</h4>
+                                <p class="item-details">Miqdori: {{ item.qty }}</p>
+                            </div>
+                            <div class="item-price">{{ item.total|floatformat:0 }} so'm</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Jami summa</span>
+                        <span>{{ subtotal|floatformat:0 }} so'm</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Yetkazib berish</span>
+                        <span style="color: #2f6f4e; font-weight: 600;">BEPUL</span>
+                    </div>
+                    
+                    <div class="summary-row total">
+                        <span>Umumiy summa</span>
+                        <span>{{ total|floatformat:0 }} so'm</span>
+                    </div>
+                    
+                    <div class="free-shipping">
+                        <p>
+                            <i class="fas fa-shipping-fast"></i>
+                            Yetkazib berish bepul!
+                        </p>
+                    </div>
+                    
+                    <button type="submit" class="place-order-btn">
+                        <i class="fas fa-shopping-bag"></i> Buyurtma berish
+                    </button>
+                    
+                    <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9rem;">
+                        Buyurtma berish orqali siz 
+                        <a href="#" style="color: #2f6f4e;">shartlar va qoidalar</a>imizga rozilik bildirasiz
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Store</h3>
+                    <p style="opacity: 0.9; font-size: 1.1rem;">Tabiiy o'simlik dorilari</p>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <a href="{% url 'shop:track_order' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <i class="fas fa-search"></i> Buyurtmani kuzatish
+                    </a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p>© 2025 GreenHerb Store. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

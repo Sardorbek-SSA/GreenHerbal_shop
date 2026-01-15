@@ -1,0 +1,88 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+pyvenv.cfg
+
+# Python env scripts (Windows)
+env/Scripts/
+
+# Django stuff:
+# SQLite database file
+db.sqlite3
+
+# Media files (user-uploaded)
+/media/
+media/
+
+# Collected/static files
+/staticfiles/
+staticfiles/
+
+# Local settings
+local_settings.py
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Test / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Sphinx
+docs/_build/
+
+# celery
+celerybeat-schedule
+
+# Temporary files
+*.swp
+*~
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Unit test / reproducible run artifacts
+pip-log.txt
+pip-delete-this-directory.txt
+
+# SQLite temporary/journal files
+*.sqlite3-journal
+

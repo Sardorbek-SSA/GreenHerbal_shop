@@ -1,0 +1,431 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barcha Mahsulotlar | GreenHerb Online Do'koni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ====== HERO SECTION ====== */
+        .hero {
+            background: linear-gradient(rgba(47, 111, 78, 0.9), rgba(47, 111, 78, 0.8)), url('https://images.unsplash.com/photo-1585771724684-382b4b4f5d53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            background: white;
+            color: #2f6f4e;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: #e8f4ee;
+        }
+        
+        /* ====== SECTION HEADER ====== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-header h2 {
+            display: inline-block;
+            font-size: 2.5rem;
+            color: #2f6f4e;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #2f6f4e, #3c8a5f);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 15px auto 0;
+        }
+        
+        /* ====== PRODUCT CARD ====== */
+        .product {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(47, 111, 78, 0.15);
+        }
+        
+        .product-cart-image {
+            display: block;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .product-cart-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product:hover .product-cart-image img {
+            transform: scale(1.05);
+        }
+        
+        .product h3 {
+            color: #2f6f4e;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .product p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2f6f4e;
+            margin: 15px 0;
+        }
+        
+        /* ====== TESTIMONIALS ====== */
+        .testimonials-section {
+            margin: 60px 0;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* ====== FOOTER ====== */
+        footer {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: white;
+            color: #2f6f4e;
+            transform: translateY(-3px);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #e8f4ee;
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            opacity: 0.8;
+        }
+        
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 70px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Online Do'koni</h1>
+        <p>Sog'lom Hayot Uchun Tabiiy Preparatlar</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Mahsulotlarimiz Bilan Tanishing</h1>
+            <p>Sofligi va samaradorligi sinchkovlik bilan tanlangan yuqori sifatli dorivor o'simlik mahsulotlarimiz to'plamini kashf eting.</p>
+            <a href="#products" class="hero-btn">Hoziroq xarid qiling<i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <div class="container" id="products">
+        <div class="section-header">
+            <h2>Barcha Tabiiy Mahsulotlar</h2>
+            <p class="section-subtitle">Sog'lom turmush sari sayohatingiz uchun tabiiy dorivor o'simliklardan iborat keng assortimentimizdan tanlang.</p>
+        </div>
+        
+        <div class="products">
+            {% for herbal in herbals %}
+            <div class="product">
+                <a href="{% url 'shop:product_detail' herbal.id %}" class="product-cart-image">
+                    <img src="{{ herbal.image.url }}" alt="{{ herbal.name }}">
+                </a>
+                <h3>{{ herbal.name }}</h3>
+                <p>{{ herbal.description|truncatechars:100 }}</p>
+                <div class="price">${{ herbal.price }}</div>
+                
+                <!-- FORM bilan add to cart -->
+                <form method="POST" action="{% url 'shop:add_to_cart' herbal.id %}" style="margin-top: 15px;">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="shop:product_list">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="primary-btn" style="width: 100%;">
+                        <i class="fas fa-cart-plus"></i> Savatga Qo'shish
+                    </button>
+                </form>
+            </div>
+            {% empty %}
+            <div class="empty-state" style="text-align: center; width: 100%; padding: 60px 20px;">
+                <i class="fas fa-seedling" style="font-size: 4rem; color: #ccc; margin-bottom: 20px;"></i>
+                <h3 style="color: #666; margin-bottom: 15px;">Mahsulot topilmadi</h3>
+                <p style="color: #777; max-width: 400px; margin: 0 auto;">Eng so'nggi dorivor o'simlik mahsulotlarimiz uchun tez orada yana tashrif buyuring!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- TESTIMONIALS -->
+        <section class="testimonials-section">
+            <div class="section-header" style="margin-bottom: 40px;">
+                <h2 style="color: #2f6f4e;">Nega Mijozlar Bizni Tanlashadi</h2>
+                <p class="section-subtitle">Sog'lom hayot sari yo'lda minglab mamnun mijozlarimiz safiga qo'shiling.</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">“Dorivor o'simliklarning sifati juda yuqori. Ko'plab brendlarni sinab ko'rganman, ammo GreenHerb sofligi va samaradorligi bilan ajralib turadi.”</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Lisa Park" class="testimonial-avatar">
+                        <div>
+                            <h4>Munisa Valiyeva</h4>
+                            <p>Wellness Blogger</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">“O'simlikshunos sifatida GreenHerb'ni barcha mijozlarimga tavsiya qilaman. Ularning xomashyo tanlash standartlari mukammal.”</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. James Wilson" class="testimonial-avatar">
+                        <div>
+                            <h4>Dr. Ermatov</h4>
+                            <p>O'simlikshunos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">“Romashka aralashmasi menga uyqusizlikni tabiiy yo'l bilan yengishga yordam berdi. Ushbu ajoyib mahsulot uchun juda minnatdorman!”</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sophia Chen" class="testimonial-avatar">
+                        <div>
+                            <h4>Saodatxon Ismoilova</h4>
+                            <p>5 Yillik mijoz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>GreenHerb Online do'koni</h3>
+                    <p>2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+                </div>
+                <div class="social-links">
+
+                    <a href="https://instagram.com/sardorize_"><i class="fab fa-instagram"></i></a>
+                    <a href="https://t.me/sardorize"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
+                <a href="{% url 'shop:product_list' %}">Mahsulotlar</a>
+                <a href="{% url 'shop:cart_view' %}">Savat</a>
+                <a href="#">Biz Haqimizda</a>
+                <a href="#">Bog'lanish</a>
+                <a href="#">Maxfiylik Siyosati</a>
+                <a href="#">Xizmat Ko'rsatish Shartlari</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

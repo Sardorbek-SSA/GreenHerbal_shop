@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Payme To'lov | GreenHerb Store</title>
+    <style>
+        .payme-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .payme-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payme-logo {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .qr-code {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        
+        .merchant-info {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .copy-btn {
+            background: #2f6f4e;
+            color: white;
+        }
+        
+        .back-btn {
+            background: #f0f0f0;
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="payme-container">
+        <div class="payme-header">
+            <img src="https://cdn.payme.uz/assets/brand/logo-black.png" alt="Payme" class="payme-logo">
+            <h2 style="color: #2f6f4e;">Payme orqali to'lash</h2>
+        </div>
+        
+        <div class="amount-box" style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 10px; margin: 20px 0;">
+            <h3 style="margin: 0; color: #333;">To'lov summasi:</h3>
+            <h1 style="margin: 10px 0; color: #d32f2f;">{{ total|floatformat:0 }} so'm</h1>
+        </div>
+        
+        <div class="qr-code">
+            <h4>QR kod orqali to'lash:</h4>
+            <div class="qr-placeholder">
+                <span style="color: #666;">QR Code yuklanmoqda...</span>
+            </div>
+            <p>Payme ilovasida "QR kod skanerlash" tugmasini bosing</p>
+        </div>
+        
+        <div class="merchant-info">
+            <h4 style="margin-top: 0; color: #2f6f4e;">Hisob raqam orqali to'lash:</h4>
+            <div class="info-row">
+                <span>Hisob raqam:</span>
+                <span><strong>8600 1234 5678 9012</strong></span>
+            </div>
+            <div class="info-row">
+                <span>Summa:</span>
+                <span><strong>{{ total|floatformat:0 }} so'm</strong></span>
+            </div>
+            <div class="info-row">
+                <span>Izoh:</span>
+                <span><strong>{{ order_id }}</strong></span>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-btn copy-btn" onclick="copyToClipboard('8600 1234 5678 9012')">
+                <i class="far fa-copy"></i> Hisobni nusxalash
+            </button>
+            <a href="{% url 'shop:checkout' %}" class="action-btn back-btn">
+                <i class="fas fa-arrow-left"></i> Orqaga
+            </a>
+        </div>
+        
+        <div style="margin-top: 25px; padding: 15px; background: #e8f4ee; border-radius: 10px;">
+            <p style="margin: 0; color: #2f6f4e; text-align: center;">
+                <i class="fas fa-info-circle"></i> To'lovni amalga oshirgach, "To'lov tasdiqlandi" tugmasini bosing
+            </p>
+        </div>
+    </div>
+    
+    <script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('Hisob raqam nusxalandi: ' + text);
+        });
+    }
+    </script>
+</body>
+</html>

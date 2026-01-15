@@ -1,0 +1,571 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Savat | GreenHerb Online Do'koni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Cart page specific styles */
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .cart-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 20px 0;
+        }
+        
+        .cart-header h2 {
+            color: #2f6f4e;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .cart-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Cart Message */
+        .cart-message {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 80px 30px;
+            background: #f8fbf9;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px dashed #e8f4ee;
+        }
+        
+        .empty-cart-icon {
+            font-size: 5rem;
+            color: #c1d7c9;
+            margin-bottom: 25px;
+        }
+        
+        .empty-cart h3 {
+            color: #2f6f4e;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .empty-cart p {
+            color: #777;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        /* Cart Table */
+        .cart-table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e8f4ee;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .cart-table thead {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+        }
+        
+        .cart-table th {
+            color: white;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .cart-table tbody tr {
+            border-bottom: 1px solid #e8f4ee;
+            transition: background 0.3s ease;
+        }
+        
+        .cart-table tbody tr:hover {
+            background: #f8fbf9;
+        }
+        
+        .cart-table td {
+            padding: 25px 15px;
+            vertical-align: middle;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #e8f4ee;
+            background: white;
+            padding: 5px;
+        }
+        
+        .cart-item-info h4 {
+            color: #2f6f4e;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2f6f4e;
+        }
+        
+        .quantity-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2f6f4e;
+            background: #e8f4ee;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .item-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2f6f4e;
+        }
+        
+        .remove-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .remove-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        /* Cart Summary */
+        .cart-summary {
+            background: linear-gradient(135deg, #f8fbf9 0%, #e8f4ee 100%);
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 40px;
+            border: 2px solid #2f6f4e;
+        }
+        
+        .cart-summary h3 {
+            color: #2f6f4e;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2f6f4e;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #d4e8d9;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .summary-value {
+            color: #2f6f4e;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .summary-row.total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2f6f4e;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 3px solid #2f6f4e;
+            border-bottom: none;
+        }
+        
+        .free-shipping-note {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 25px;
+            text-align: center;
+            border: 2px solid #2f6f4e;
+        }
+        
+        .free-shipping-note p {
+            color: #2f6f4e;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        /* Cart Actions */
+        .cart-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .continue-shopping-btn {
+            background: #e8f4ee;
+            color: #2f6f4e;
+            padding: 18px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid #2f6f4e;
+        }
+        
+        .continue-shopping-btn:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(47, 111, 78, 0.3);
+        }
+        
+        .cart-action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .clear-cart-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .clear-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(47, 111, 78, 0.3);
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(47, 111, 78, 0.4);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cart-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .cart-table th,
+            .cart-table td {
+                padding: 15px 10px;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .cart-item-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Online do'koni</h1>
+        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+    </nav>
+
+    <div class="cart-container">
+        <!-- CART HEADER -->
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> Sizning Savatingiz</h2>
+            <p>To'lovdan oldin dorivor o'simlik mahsulotlaringizni ko'rib chiqing va boshqaring</p>
+        </div>
+
+        <!-- CART MESSAGE -->
+        {% if cart_message %}
+        <div class="cart-message">
+            <i class="fas fa-check-circle"></i> {{ cart_message }}
+        </div>
+        {% endif %}
+
+        <!-- EMPTY CART -->
+        {% if not cart %}
+        <div class="empty-cart">
+            <div class="empty-cart-icon">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <h3>Sizning savatingiz bo'sh</h3>
+            <p>Ko'rinishidan, siz hali savatchangizga hech qanday mahsulot qo'shmagansiz. Tabiiy dorivor o'simlik mahsulotlarimizni hozirdanoq ko'rib chiqing!</p>
+            <a href="{% url 'shop:product_list' %}" class="continue-shopping-btn">
+                <i class="fas fa-leaf"></i> Mahsulotlarni Ko'rish
+            </a>
+        </div>
+        {% else %}
+        <!-- CART ITEMS -->
+        <div class="cart-table-container">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Mahsulot</th>
+                        <th style="width: 15%;">Narxi</th>
+                        <th style="width: 15%;">Miqdori</th>
+                        <th style="width: 15%;">Umumiy</th>
+                        <th style="width: 15%;">Harakat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product_id, item in cart.items %}
+                    <tr>
+                        <td>
+                            <div class="cart-item">
+                                {% if item.image %}
+                                <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-item-image">
+                                {% else %}
+                                <div style="width: 100px; height: 100px; background: #e8f4ee; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-leaf" style="color: #2f6f4e; font-size: 2.5rem;"></i>
+                                </div>
+                                {% endif %}
+                                <div class="cart-item-info">
+                                    <h4>{{ item.name }}</h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="item-price">${{ item.price }}</span>
+                        </td>
+                        <td>
+                            <span class="quantity-display">{{ item.qty }}</span>
+                        </td>
+                        <td>
+                            <span class="item-total">${{ item.total|floatformat:2 }}</span>
+                        </td>
+                        <td>
+                            <form method="POST" action="{% url 'shop:remove_from_cart' product_id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn">
+                                    <i class="fas fa-trash"></i> O'chirish
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CART SUMMARY -->
+        <div class="cart-summary">
+            <h3><i class="fas fa-receipt"></i> Buyurtma Tafsilotlari</h3>
+            
+            <div class="summary-row">
+                <span class="summary-label">Oraliq Summa:</span>
+                <span class="summary-value">${{ subtotal|floatformat:2 }}</span>
+            </div>
+            
+            <div class="summary-row">
+                <span class="summary-label">Yetkazib Berish:</span>
+                <span class="summary-value">
+                    {% if shipping == 0 %}
+                    <span style="color: #28a745;">Bepul</span>
+                    {% else %}
+                    ${{ shipping|floatformat:2 }}
+                    {% endif %}
+                </span>
+            </div>
+            
+            <!-- <div class="summary-row">
+                <span class="summary-label">Tax (8%):</span>
+                <span class="summary-value">${{ tax|floatformat:2 }}</span>
+            </div> -->
+            
+            <div class="summary-row total">
+                <span class="summary-label">Umumiy Miqdor:</span>
+                <span class="summary-value">${{ subtotal|floatformat:2 }}</span>
+            </div>
+            
+            {% if shipping == 0 %}
+            <div class="free-shipping-note">
+                <p>🎉 Tabriklaymiz! Siz BEPUL yetkazib berish uchun mos keldingiz!</p>
+            </div>
+            {% else %}
+            <div class="free-shipping-note" style="border-color: #ffc107; background: #fff8e1;">
+                <p>🚚 50 000 so'm yoki undan ko'proq xarid qiling va BEPUL yetkazib berishga ega bo'ling!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- CART ACTIONS -->
+        <div class="cart-actions">
+            <a href="{% url 'shop:product_list' %}" class="continue-shopping-btn">
+                <i class="fas fa-arrow-left"></i> Xaridni Davom Ettirish
+            </a>
+            
+            <div class="cart-action-buttons">
+                <form method="POST" action="{% url 'shop:clear_cart' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="clear-cart-btn">
+                        <i class="fas fa-trash"></i> Savatni Tozalash
+                    </button>
+                </form>
+                
+                 <!-- TO'LOVGA O'TISH tugmasi -->
+                    {% if cart %}
+                    <a href="{% url 'shop:checkout' %}" class="checkout-btn" style="text-decoration: none;">
+                        <i class="fas fa-lock"></i> To'lovga o'tish
+                    </a>
+                    {% else %}
+                    <button class="checkout-btn" disabled style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-lock"></i> Savat bo'sh
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 10px;">GreenHerb Online do'koni</h3>
+                    <p style="opacity: 0.8;">2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    
+                    <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
