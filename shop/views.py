@@ -171,118 +171,102 @@ def checkout(request):
             # Onlayn to'lov - payment sahifasiga
             return redirect('shop:online_payment', payment_method=payment_method)
 
-# ===================== ONLINE PAYMENT FUNKSIYASI =====================
-def online_payment(request, payment_method='click'):
-    """Barcha onlayn to'lovlar uchun bitta sahifa"""
-    cart = request.session.get('cart', {})
-    order_data = request.session.get('order_data', {})
-    
-    if not cart:
-        messages.warning(request, 'Savat boʻsh! Iltimos, mahsulot tanlang.')
-        return redirect('shop:product_list')
-    
-    # Jami summani hisoblash
-    subtotal = sum(item['total'] for item in cart.values())
-    total = subtotal
-    
-    # Order ID
-    order_id = request.session.get('order_id', 'ORD' + str(random.randint(10000, 99999)))
-    
-    if request.method == 'POST':
-        # To'lovni qayta ishlash (simulyatsiya)
-        
-        # Buyurtma raqami yaratish
-        order_number = generate_order_number()
-        
-        try:
-            # Buyurtmani yaratish
-            order = Order.objects.create(
-                order_number=order_number,
-                full_name=order_data.get('full_name', ''),
-                phone=order_data.get('phone', ''),
-                email=order_data.get('email', ''),
-                pickup_point_id=order_data.get('pickup_point_id'),
-                payment_method=payment_method,
-                notes=order_data.get('notes', ''),
-                subtotal=subtotal,
-                shipping=0,
-                total=total,
-                payment_status=True,  # Online to'lov muvaffaqiyatli
-                status='confirmed',
-            )
-            
-            # Buyurtma mahsulotlarini yaratish
-            for product_id, item in cart.items():
-                OrderItem.objects.create(
-                    order=order,
-                    product_name=item['name'],
-                    product_price=item['price'],
-                    quantity=item['qty'],
-                    total_price=item['total'],
-                )
-            
-            # Savatni tozalash
-            request.session['cart'] = {}
-            request.session['last_order_id'] = order.id
-            request.session.modified = True
-            
-            messages.success(request, f'Toʻlov muvaffaqiyatli amalga oshirildi! Buyurtma raqami: {order_number}')
-            return redirect('shop:order_confirmation')
-            
-        except Exception as e:
-            messages.error(request, f'Xatolik yuz berdi: {e}')
-            return redirect('shop:checkout')
-    
-    # GET so'rovi: to'lov sahifasini ko'rsatish
-    context = {
-        'payment_method': payment_method,
-        'cart': cart,
-        'total': total,
-        'order_id': order_id,
-        'subtotal': subtotal,
-        'order_data': order_data,
-    }
-    
-    return render(request, 'shop/payment/online.html', context)
-
 # ===================== ORDER CONFIRMATION FUNKSIYASI =====================
 def order_confirmation(request):
     """Buyurtma tasdiqlash sahifasi"""
-    order_id = request.session.get('last_order_id')
     order_data = request.session.get('order_data', {})
     cart = request.session.get('cart', {})
     
-    if order_id:
-        try:
-            order = Order.objects.get(id=order_id)
-            context = {'order': order}
-        except Order.DoesNotExist:
-            messages.error(request, 'Buyurtma topilmadi.')
-            return redirect('shop:home')
-    else:
-        # Agar order_id bo'lmasa, session dan ma'lumotlarni olish
-        order_number = request.session.get('order_id', 'ORD' + str(random.randint(10000, 99999)))
-        payment_method = order_data.get('payment_method', 'cash_pickup')
+    if not cart:
+        messages.warning(request, 'Savat boʻsh!')
+        return redirect('shop:cart_view')
+    
+    # DEBUG: Nima saqlanayotganini ko'rish
+    print(f"✅ DEBUG: order_data = {order_data}")
+    print(f"✅ DEBUG: cart = {cart}")
+    
+    try:
+        # ✅ 1. Buyurtma raqamini generatsiya qilish
+        order_number = generate_order_number()
         
-        # Kontekst
+        # ✅ 2. PickupPoint ni olish (agar mavjud bo'lsa)
+        pickup_point = None
+        pickup_point_id = order_data.get('pickup_point_id')
+        if pickup_point_id:
+            try:
+                pickup_point = PickupPoint.objects.get(id=pickup_point_id)
+            except PickupPoint.DoesNotExist:
+                pickup_point = None
+        
+        # ✅ 3. Buyurtmani DATABASE ga saqlash
+        order = Order.objects.create(
+            order_number=order_number,
+            full_name=order_data.get('full_name', 'Mijoz'),
+            phone=order_data.get('phone', ''),
+            email=order_data.get('email', ''),
+            pickup_point=pickup_point,
+            payment_method=order_data.get('payment_method', 'cash_pickup'),
+            notes=order_data.get('notes', ''),
+            subtotal=sum(item['total'] for item in cart.values()),
+            # shipping=0,
+            total=sum(item['total'] for item in cart.values()),
+            payment_status=(order_data.get('payment_method') != 'cash_pickup'),  # Onlayn to'lov = True
+            status='confirmed' if order_data.get('payment_method') != 'cash_pickup' else 'pending',
+        )
+        
+        print(f"✅ Buyurtma yaratildi: {order.id} - {order.order_number}")
+        
+        # ✅ 4. Buyurtma mahsulotlarini saqlash
+        for product_id, item in cart.items():
+            OrderItem.objects.create(
+                order=order,
+                product_name=item['name'],
+                product_price=item['price'],
+                quantity=item['qty'],
+                total_price=item['total'],
+            )
+            print(f"✅ Mahsulot saqlandi: {item['name']} x {item['qty']}")
+        
+        # ✅ 5. Savatni tozalash
+        request.session['cart'] = {}
+        request.session['last_order_id'] = order.id
+        request.session['last_order_number'] = order.order_number
+        request.session.modified = True
+        
+        print(f"✅ Session tozalandi, last_order_id: {order.id}")
+        
+        # ✅ 6. Kontekst
         context = {
-            'order_number': order_number,
-            'payment_method': payment_method,
-            'full_name': order_data.get('full_name', ''),
-            'phone': order_data.get('phone', ''),
-            'total': sum(item['total'] for item in cart.values()) if cart else 0,
+            'order': order,
+            'order_number': order.order_number,
+            'payment_method': order.payment_method,
+            'full_name': order.full_name,
+            'phone': order.phone,
+            'total': order.total,
+            'message': 'Buyurtmangiz muvaffaqiyatli saqlandi!' if order.payment_method == 'cash_pickup' else 'To\'lov muvaffaqiyatli amalga oshirildi!',
         }
         
-        # Agar naqd to'lov bo'lsa
-        if payment_method == 'cash_pickup':
-            context['message'] = 'Buyurtmangiz qabul qilindi! Mahsulotni olib ketishda naqd to\'lov qiling.'
-        else:
-            context['message'] = 'Buyurtmangiz qabul qilindi! Tez orada siz bilan bog\'lanamiz.'
+        messages.success(request, f'Buyurtma raqamingiz: {order.order_number}')
         
-        # Agar cart bo'lsa, tozalash
-        if cart:
-            request.session['cart'] = {}
-            request.session.modified = True
+    except Exception as e:
+        print(f"❌ Xatolik: {str(e)}")
+        messages.error(request, f'Buyurtma saqlashda xatolik: {str(e)}')
+        
+        # Agar saqlanmasa, oddiy ma'lumotlarni ko'rsatish
+        order_number = request.session.get('order_id', 'ORD' + str(random.randint(10000, 99999)))
+        
+        context = {
+            'order_number': order_number,
+            'payment_method': order_data.get('payment_method', 'cash_pickup'),
+            'full_name': order_data.get('full_name', ''),
+            'phone': order_data.get('phone', ''),
+            'total': sum(item['total'] for item in cart.values()),
+            'message': 'Buyurtma ma\'lumotlari saqlanmadi. Iltimos, administrator bilan bog\'laning.',
+        }
+        
+        # Savatni saqlab qolish
+        request.session['cart'] = {}
+        request.session.modified = True
     
     return render(request, 'shop/order_confirmation.html', context)
 

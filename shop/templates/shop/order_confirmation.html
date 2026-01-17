@@ -213,8 +213,12 @@
         <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh sahifa</a>
         <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
         <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
         <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz haqimizda</a>
         <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Aloqa</a>
+        
+        <a href="{% url 'shop:track_order' %}" class="btn btn-secondary">
+            <i class="fas fa-search"></i> Buyurtmani kuzatish</a>
     </nav>
 
     <div class="confirmation-container">

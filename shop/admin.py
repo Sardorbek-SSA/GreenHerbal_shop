@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('payment_method', 'payment_status')
         }),
         ('Summalar', {
-            'fields': ('subtotal', 'shipping', 'total')
+            'fields': ('subtotal', 'total')
         }),
         ('Holat', {
             'fields': ('status', 'created_at', 'updated_at')

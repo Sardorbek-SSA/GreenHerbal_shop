@@ -17,8 +17,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
 
     path('checkout/', views.checkout, name='checkout'),
-
-    path('payment/<str:payment_method>/', views.online_payment, name='online_payment'),
     
     path('order-confirmation/', views.order_confirmation, name='order_confirmation'),
     
