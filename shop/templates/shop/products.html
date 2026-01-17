@@ -329,7 +329,11 @@
             {% for herbal in herbals %}
             <div class="product">
                 <a href="{% url 'shop:product_detail' herbal.id %}" class="product-cart-image">
-                    <img src="{{ herbal.image.url }}" alt="{{ herbal.name }}">
+                    {% if herbal.image and herbal.image.url %}
+                        <img src="{{ herbal.image.url }}" alt="{{ herbal.name }}">
+                    {% else %}
+                        <img src="{% static 'images/default-herbal.jpg' %}" alt="{{ herbal.name }}">
+                    {% endif %}
                 </a>
                 <h3>{{ herbal.name }}</h3>
                 <p>{{ herbal.description|truncatechars:100 }}</p>

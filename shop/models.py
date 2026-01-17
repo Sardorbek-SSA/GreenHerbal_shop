@@ -10,7 +10,13 @@ class Herbal(models.Model):
         null=True,
         default='herbals/default.jpg'
     )
-    is_home = models.BooleanField(default=False) 
+    is_home = models.BooleanField(default=False)
+
+    def image_url(self):
+        """Rasm URL ni qaytarish"""
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        return '/static/images/default-herbal.jpg' 
 
     def __str__(self):
         return self.name
