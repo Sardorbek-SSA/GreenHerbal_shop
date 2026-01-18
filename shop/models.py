@@ -4,20 +4,15 @@ class Herbal(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(
-        upload_to='herbals/', 
-        blank=True, 
-        null=True,
-        default='herbals/default.jpg'
-    )
     is_home = models.BooleanField(default=False)
-
+    image_name = models.CharField(max_length=255, blank=True, default='default.jpg') 
+    
     def image_url(self):
         """Rasm URL ni qaytarish"""
-        if self.image and hasattr(self.image, 'url'):
-            return self.image.url
-        return '/static/images/default-herbal.jpg' 
-
+        if self.image_name:
+            return f'/static/herbals/{self.image_name}'
+        return '/static/herbals/default.jpg'
+    
     def __str__(self):
         return self.name
 
