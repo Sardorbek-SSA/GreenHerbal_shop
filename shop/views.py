@@ -41,17 +41,18 @@ def add_to_cart(request, pk):
             cart[product_id]['total'] = cart[product_id]['qty'] * float(herbal.price)
         else:
             cart[product_id] = {
+                'id': herbal.id,
                 'name': herbal.name,
                 'price': float(herbal.price),
                 'qty': quantity,
-                'image': herbal.image.url if herbal.image else '',
+                'image_url': herbal.image.url if herbal.image else '',  # ✅ To'g'ri format
                 'total': float(herbal.price) * quantity
             }
         
         request.session['cart'] = cart
         request.session.modified = True
         
-        request.session['cart_message'] = f'{herbal.name} added to cart!'
+        request.session['cart_message'] = f'{herbal.name} savatga qo\'shildi!'
         
         return redirect('shop:cart_view')
 
@@ -74,17 +75,17 @@ def cart_view(request):
     for item in cart.values():
         subtotal += item['total']
     
-    shipping = 0 if subtotal >= 50 else 5
+    # Yetkazib berish: 50,000 so'mdan ko'p bo'lsa bepul
+    shipping = 0 if subtotal >= 50000 else 10000
     
-    tax = subtotal * 0.08
+    # tax = subtotal * 0.08  # 8% QQS
     
-    total = subtotal + shipping + tax
+    total = subtotal + shipping
     
     context = {
         'cart': cart,
         'subtotal': round(subtotal, 2),
         'shipping': shipping,
-        'tax': round(tax, 2),
         'total': round(total, 2),
         'cart_message': request.session.pop('cart_message', None)
     }
@@ -100,14 +101,45 @@ def remove_from_cart(request, pk):
         del cart[product_id]
         request.session['cart'] = cart
         request.session.modified = True
-        request.session['cart_message'] = f'{product_name} removed from cart!'
+        request.session['cart_message'] = f'{product_name} savatdan o\'chirildi!'
+    
+    return redirect('shop:cart_view')
+
+def increase_quantity(request, pk):
+    """Miqdorni oshirish"""
+    cart = request.session.get('cart', {})
+    product_id = str(pk)
+    
+    if product_id in cart:
+        cart[product_id]['qty'] += 1
+        cart[product_id]['total'] = cart[product_id]['qty'] * cart[product_id]['price']
+        request.session['cart'] = cart
+        request.session.modified = True
+    
+    return redirect('shop:cart_view')
+
+def decrease_quantity(request, pk):
+    """Miqdorni kamaytirish"""
+    cart = request.session.get('cart', {})
+    product_id = str(pk)
+    
+    if product_id in cart:
+        if cart[product_id]['qty'] > 1:
+            cart[product_id]['qty'] -= 1
+            cart[product_id]['total'] = cart[product_id]['qty'] * cart[product_id]['price']
+        else:
+            del cart[product_id]
+            request.session['cart_message'] = 'Mahsulot savatdan o\'chirildi!'
+        
+        request.session['cart'] = cart
+        request.session.modified = True
     
     return redirect('shop:cart_view')
 
 def clear_cart(request):
     request.session['cart'] = {}
     request.session.modified = True
-    request.session['cart_message'] = 'Cart cleared!'
+    request.session['cart_message'] = 'Savat tozalandi!'
     return redirect('shop:cart_view')
 
 def about(request):
@@ -122,10 +154,8 @@ def generate_order_number():
     random_str = ''.join(random.choices(string.digits, k=6))
     return f'B-{timestamp}-{random_str}'
 
-# ===================== CHECKOUT FUNKSIYASI =====================
 def checkout(request):
     if request.method == 'GET':
-        # GET so'rovi: checkout sahifasini ko'rsatish
         cart = request.session.get('cart', {})
         
         if not cart:
@@ -133,7 +163,11 @@ def checkout(request):
             return redirect('shop:cart_view')
         
         subtotal = sum(item['total'] for item in cart.values())
+        
+        # shipping = 0 if subtotal >= 50000 else 10000
+        
         total = subtotal
+        
         pickup_points = PickupPoint.objects.filter(is_active=True)
         
         context = {
@@ -145,13 +179,10 @@ def checkout(request):
         return render(request, 'shop/checkout.html', context)
     
     elif request.method == 'POST':
-        # POST so'rovi: to'lov usulini qayta ishlash
         payment_method = request.POST.get('payment_method', 'cash_pickup')
         
-        # Order ID generatsiya qilish
         order_id = 'ORD' + str(random.randint(10000, 99999))
         
-        # Ma'lumotlarni session ga saqlash
         order_data = {
             'full_name': request.POST.get('full_name', ''),
             'phone': request.POST.get('phone', ''),
@@ -163,15 +194,11 @@ def checkout(request):
         request.session['order_data'] = order_data
         request.session['order_id'] = order_id
         
-        # To'lov usuliga qarab yo'naltirish
         if payment_method == 'cash_pickup':
-            # Naqd to'lov - tasdiqlash sahifasiga
             return redirect('shop:order_confirmation')
         else:
-            # Onlayn to'lov - payment sahifasiga
             return redirect('shop:online_payment', payment_method=payment_method)
 
-# ===================== ORDER CONFIRMATION FUNKSIYASI =====================
 def order_confirmation(request):
     """Buyurtma tasdiqlash sahifasi"""
     order_data = request.session.get('order_data', {})
@@ -181,15 +208,9 @@ def order_confirmation(request):
         messages.warning(request, 'Savat boʻsh!')
         return redirect('shop:cart_view')
     
-    # DEBUG: Nima saqlanayotganini ko'rish
-    print(f"✅ DEBUG: order_data = {order_data}")
-    print(f"✅ DEBUG: cart = {cart}")
-    
     try:
-        # ✅ 1. Buyurtma raqamini generatsiya qilish
         order_number = generate_order_number()
         
-        # ✅ 2. PickupPoint ni olish (agar mavjud bo'lsa)
         pickup_point = None
         pickup_point_id = order_data.get('pickup_point_id')
         if pickup_point_id:
@@ -198,7 +219,10 @@ def order_confirmation(request):
             except PickupPoint.DoesNotExist:
                 pickup_point = None
         
-        # ✅ 3. Buyurtmani DATABASE ga saqlash
+        subtotal = sum(item['total'] for item in cart.values())
+        # shipping = 0 if subtotal >= 50000 else 10000
+        total = subtotal
+
         order = Order.objects.create(
             order_number=order_number,
             full_name=order_data.get('full_name', 'Mijoz'),
@@ -207,35 +231,32 @@ def order_confirmation(request):
             pickup_point=pickup_point,
             payment_method=order_data.get('payment_method', 'cash_pickup'),
             notes=order_data.get('notes', ''),
-            subtotal=sum(item['total'] for item in cart.values()),
-            # shipping=0,
-            total=sum(item['total'] for item in cart.values()),
-            payment_status=(order_data.get('payment_method') != 'cash_pickup'),  # Onlayn to'lov = True
+            subtotal=subtotal,
+            total=total,
+            payment_status=(order_data.get('payment_method') != 'cash_pickup'),
             status='confirmed' if order_data.get('payment_method') != 'cash_pickup' else 'pending',
         )
         
-        print(f"✅ Buyurtma yaratildi: {order.id} - {order.order_number}")
-        
-        # ✅ 4. Buyurtma mahsulotlarini saqlash
         for product_id, item in cart.items():
+            try:
+                herbal = Herbal.objects.get(id=item['id'])
+            except Herbal.DoesNotExist:
+                herbal = None
+            
             OrderItem.objects.create(
                 order=order,
+                herbal=herbal,
                 product_name=item['name'],
                 product_price=item['price'],
                 quantity=item['qty'],
                 total_price=item['total'],
             )
-            print(f"✅ Mahsulot saqlandi: {item['name']} x {item['qty']}")
         
-        # ✅ 5. Savatni tozalash
         request.session['cart'] = {}
         request.session['last_order_id'] = order.id
         request.session['last_order_number'] = order.order_number
         request.session.modified = True
         
-        print(f"✅ Session tozalandi, last_order_id: {order.id}")
-        
-        # ✅ 6. Kontekst
         context = {
             'order': order,
             'order_number': order.order_number,
@@ -252,47 +273,219 @@ def order_confirmation(request):
         print(f"❌ Xatolik: {str(e)}")
         messages.error(request, f'Buyurtma saqlashda xatolik: {str(e)}')
         
-        # Agar saqlanmasa, oddiy ma'lumotlarni ko'rsatish
         order_number = request.session.get('order_id', 'ORD' + str(random.randint(10000, 99999)))
+        
+        subtotal = sum(item['total'] for item in cart.values())
+        # shipping = 0 if subtotal >= 50000 else 10000
+        total = subtotal
         
         context = {
             'order_number': order_number,
             'payment_method': order_data.get('payment_method', 'cash_pickup'),
             'full_name': order_data.get('full_name', ''),
             'phone': order_data.get('phone', ''),
-            'total': sum(item['total'] for item in cart.values()),
+            'total': total,
             'message': 'Buyurtma ma\'lumotlari saqlanmadi. Iltimos, administrator bilan bog\'laning.',
         }
         
-        # Savatni saqlab qolish
         request.session['cart'] = {}
         request.session.modified = True
     
     return render(request, 'shop/order_confirmation.html', context)
 
-def track_order(request):
-    """Buyurtmani kuzatish sahifasi"""
-    if request.method == 'POST':
-        order_number = request.POST.get('order_number')
-        phone = request.POST.get('phone')
-        
-        try:
-            order = Order.objects.get(order_number=order_number, phone=phone)
-            return render(request, 'shop/track_order.html', {'order': order})
-        except Order.DoesNotExist:
-            messages.error(request, 'Buyurtma topilmadi. Raqam va telefonni tekshiring.')
-    
-    return render(request, 'shop/track_order.html')
-
 def my_orders(request):
     """Mening buyurtmalarim sahifasi"""
     if request.method == 'POST':
-        phone = request.POST.get('phone')
-        orders = Order.objects.filter(phone=phone).order_by('-created_at')
+        phone = request.POST.get('phone', '').strip()
+        
+        # Telefon raqamini tozalash
+        def clean_phone_number(phone_str):
+            import re
+            cleaned = re.sub(r'\D', '', str(phone_str))
+            
+            # Oxirgi 9 raqam
+            if len(cleaned) >= 9:
+                return cleaned[-9:]
+            return cleaned
+        
+        phone_clean = clean_phone_number(phone)
+        
+        print(f"DEBUG: Original phone: {phone}")
+        print(f"DEBUG: Cleaned phone: {phone_clean}")
+        
+        if len(phone_clean) != 9:
+            messages.error(request, 'Iltimos, to\'g\'ri telefon raqamini kiriting (9 raqam).')
+            return render(request, 'shop/my_orders.html')
+        
+        # Database dan qidirish
+        orders = Order.objects.all()
+        matching_orders = []
+        
+        for order in orders:
+            # Order telefonini tozalash
+            order_phone_clean = clean_phone_number(order.phone)
+            
+            # Agar tozalangan raqamlar mos kelsa
+            if order_phone_clean == phone_clean:
+                matching_orders.append(order)
+        
+        if matching_orders:
+            return render(request, 'shop/my_orders.html', {
+                'orders': matching_orders, 
+                'phone': phone  # Asl kiritilgan raqamni saqlash
+            })
+        else:
+            messages.info(request, f'"{phone}" raqami bilan buyurtma topilmadi.')
+    
+    return render(request, 'shop/my_orders.html')
+
+
+def track_order(request):
+    """Buyurtmani kuzatish sahifasi"""
+    
+    # GET parametrlari bilan ishlash
+    if request.method == 'GET' and 'order_number' in request.GET:
+        order_number = request.GET.get('order_number', '').strip()
+        phone = request.GET.get('phone', '').strip()
+        
+        print(f"DEBUG GET: order_number={order_number}, phone={phone}")
+        
+        # Telefon raqamini tozalash funksiyasi
+        def clean_phone_number(phone_str):
+            import re
+            cleaned = re.sub(r'\D', '', str(phone_str))
+            
+            # Oxirgi 9 raqam
+            if len(cleaned) >= 9:
+                return cleaned[-9:]
+            return cleaned
+        
+        phone_clean = clean_phone_number(phone)
+        
+        try:
+            # Order raqami bo'yicha qidirish
+            order = Order.objects.get(order_number=order_number)
+            
+            # Order telefonini tozalash
+            order_phone_clean = clean_phone_number(order.phone)
+            
+            # Agar tozalangan raqamlar mos kelsa
+            if order_phone_clean == phone_clean:
+                return render(request, 'shop/track_order.html', {'order': order})
+            else:
+                messages.error(request, 'Buyurtma topilmadi. Telefon raqami mos kelmadi.')
+                
+        except Order.DoesNotExist:
+            messages.error(request, 'Buyurtma topilmadi. Raqam va telefonni tekshiring.')
+        
+        return render(request, 'shop/track_order.html')
+    
+    # POST so'rovi
+    elif request.method == 'POST':
+        order_number = request.POST.get('order_number', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        
+        print(f"DEBUG POST: Input phone: {phone}")
+        
+        # Formatlash funksiyasi
+        def format_input_phone(phone_str):
+            import re
+            digits = re.sub(r'\D', '', str(phone_str))
+            
+            if len(digits) >= 9:
+                last_9 = digits[-9:]
+                return f"+998 {last_9[0:2]} {last_9[2:5]} {last_9[5:7]} {last_9[7:9]}"
+            return phone_str
+        
+        # Formatlash
+        formatted_phone = format_input_phone(phone)
+        print(f"DEBUG POST: Formatted phone: {formatted_phone}")
+        
+        try:
+            # Qidirish
+            order = Order.objects.get(
+                order_number=order_number,
+                phone=formatted_phone
+            )
+            return render(request, 'shop/track_order.html', {'order': order})
+            
+        except Order.DoesNotExist:
+            # Tozalangan raqamlar bilan qidirish
+            def clean_phone_number(phone_str):
+                import re
+                cleaned = re.sub(r'\D', '', str(phone_str))
+                return cleaned[-9:] if len(cleaned) >= 9 else cleaned
+            
+            phone_clean = clean_phone_number(phone)
+            
+            try:
+                order = Order.objects.get(order_number=order_number)
+                order_phone_clean = clean_phone_number(order.phone)
+                
+                if order_phone_clean == phone_clean:
+                    return render(request, 'shop/track_order.html', {'order': order})
+                else:
+                    messages.error(request, 'Buyurtma topilmadi. Raqam va telefonni tekshiring.')
+                    
+            except Order.DoesNotExist:
+                messages.error(request, 'Buyurtma topilmadi. Raqam va telefonni tekshiring.')
+    
+    return render(request, 'shop/track_order.html')
+
+    """Mening buyurtmalarim sahifasi"""
+    if request.method == 'POST':
+        phone = request.POST.get('phone', '').strip()
+        
+        # Telefon raqamini tozalash (barcha belgilarni olib tashlash)
+        import re
+        phone_clean = re.sub(r'\D', '', phone)  # Faqat raqamlar
+        
+        # Agar +998 yoki 998 boshlansa, 9 raqam qo'shish
+        if phone_clean.startswith('998') and len(phone_clean) > 3:
+            phone_clean = phone_clean[3:]  # Faqat 9 raqamni olish
+        
+        print(f"DEBUG: Original phone: {phone}")
+        print(f"DEBUG: Cleaned phone: {phone_clean}")
+        
+        # Database'dan qidirish (bir necha formatda)
+        orders = Order.objects.filter(
+            phone__contains=phone_clean
+        ).order_by('-created_at')
+        
+        # Agar to'g'ridan-to'g'ri topilmasa, formatlarni sinab ko'rish
+        if not orders.exists() and len(phone_clean) >= 9:
+            # Boshqa formatlarda qidirish
+            phone_formats = []
+            
+            # Format 1: 901234567
+            phone_formats.append(phone_clean)
+            
+            # Format 2: +998901234567
+            phone_formats.append('+998' + phone_clean)
+            
+            # Format 3: 998901234567
+            phone_formats.append('998' + phone_clean)
+            
+            # Format 4: 90 123 45 67
+            if len(phone_clean) == 9:
+                formatted = f"{phone_clean[0:2]} {phone_clean[2:5]} {phone_clean[5:7]} {phone_clean[7:9]}"
+                phone_formats.append(formatted)
+            
+            print(f"DEBUG: Searching with formats: {phone_formats}")
+            
+            # Har bir formatda qidirish
+            for phone_format in phone_formats:
+                orders = Order.objects.filter(phone__contains=phone_format).order_by('-created_at')
+                if orders.exists():
+                    print(f"DEBUG: Found with format: {phone_format}")
+                    break
         
         if orders.exists():
-            return render(request, 'shop/my_orders.html', {'orders': orders, 'phone': phone})
+            return render(request, 'shop/my_orders.html', {
+                'orders': orders, 
+                'phone': phone_clean if len(phone_clean) >= 9 else phone
+            })
         else:
-            messages.info(request, 'Bu telefon raqami bilan buyurtma topilmadi.')
+            messages.info(request, f'"{phone}" raqami bilan buyurtma topilmadi.')
     
     return render(request, 'shop/my_orders.html')

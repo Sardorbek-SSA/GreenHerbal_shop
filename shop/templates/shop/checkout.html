@@ -8,6 +8,132 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fbf9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVIGATION - home.html dagi kabi */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - home.html dagi kabi bir xil */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
+            }
+            
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+            }
+        }
+
         /* Checkout Styles */
         .checkout-container {
             max-width: 1200px;
@@ -24,6 +150,11 @@
             color: #2f6f4e;
             font-size: 2.8rem;
             margin-bottom: 15px;
+        }
+        
+        .checkout-header p {
+            color: #666;
+            font-size: 1.1rem;
         }
         
         .checkout-steps {
@@ -368,34 +499,82 @@
         .back-btn:hover {
             text-decoration: underline;
         }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .checkout-steps {
+                gap: 20px;
+            }
+            
+            .step-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .order-summary {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .checkout-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .checkout-header p {
+                font-size: 1rem;
+            }
+            
+            .step-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .step-text {
+                font-size: 0.9rem;
+            }
+            
+            .form-section h2 {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- HEADER -->
     <header>
         <h1>GreenHerb Store</h1>
-        <p>Tabiiy o'simlik dorilari</p>
+        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
     </header>
 
     <!-- NAVIGATION -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Aloqa</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:checkout' %}" class="active"><i class="fas fa-shopping-bag"></i> Buyurtma</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
     <div class="checkout-container">
-        <!-- Orqaga qaytish -->
-        <a href="{% url 'shop:cart_view' %}" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Savatga qaytish
-        </a>
         
         <!-- Sarlavha -->
         <div class="checkout-header">
-            <h1>Buyurtma berish</h1>
+            <h1><i class="fas fa-shopping-bag"></i> Buyurtma berish</h1>
             <p>Bir necha bosqichda buyurtmangizni rasmiylashtiring</p>
         </div>
         
@@ -477,12 +656,10 @@
                         </div>
                     </div>
                     
-                    <!-- To'lov usuli -->
                     <div class="form-section">
                         <h2><i class="fas fa-credit-card"></i> To'lov usuli</h2>
                         
                         <div class="payment-methods">
-                            <!-- Naqd to'lov -->
                             <label class="payment-method">
                                 <input type="radio" name="payment_method" value="cash_pickup" checked required>
                                 <div class="payment-icon">
@@ -509,7 +686,7 @@
                 
                 <!-- O'ng: Buyurtma xulosasi -->
                 <div class="order-summary">
-                    <h2>Buyurtma xulosasi</h2>
+                    <h2><i class="fas fa-receipt"></i> Buyurtma xulosasi</h2>
                     
                     <div class="order-items">
                         {% for product_id, item in cart.items %}
@@ -530,7 +707,7 @@
                     
                     <div class="summary-row">
                         <span>Yetkazib berish</span>
-                        <span style="color: #2f6f4e; font-weight: 600;">BEPUL</span>
+                        <span style="color: #2f6f4e; font-weight: 600;">Bepul</span>
                     </div>
                     
                     <div class="summary-row total">
@@ -538,12 +715,21 @@
                         <span>{{ total|floatformat:0 }} so'm</span>
                     </div>
                     
+                    <!-- {% if shipping == 0 %}
                     <div class="free-shipping">
                         <p>
                             <i class="fas fa-shipping-fast"></i>
                             Yetkazib berish bepul!
                         </p>
                     </div>
+                    {% else %}
+                    <div class="free-shipping" style="background: #fff8e1; border-color: #ffc107;">
+                        <p>
+                            <i class="fas fa-truck"></i>
+                            50,000 so'm yoki undan ko'p xarid qiling va bepul yetkazib berishga ega bo'ling!
+                        </p>
+                    </div> -->
+                    <!-- {% endif %} -->
                     
                     <button type="submit" class="place-order-btn">
                         <i class="fas fa-shopping-bag"></i> Buyurtma berish
@@ -559,24 +745,57 @@
     </div>
 
     <!-- FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Store</h3>
-                    <p style="opacity: 0.9; font-size: 1.1rem;">Tabiiy o'simlik dorilari</p>
+    <footer>
+        <div style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                    <div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Store</h3>
+                        <p style="opacity: 0.9; font-size: 1.1rem;">Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 15px;">
-                    <a href="{% url 'shop:track_order' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                        <i class="fas fa-search"></i> Buyurtmani kuzatish
-                    </a>
+                
+                <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p>© 2026 GreenHerb Store. Barcha huquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
                 </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                <p>© 2025 GreenHerb Store. Barcha huquqlar himoyalangan.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Forma tekshiruvi
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const placeOrderBtn = document.querySelector('.place-order-btn');
+            
+            // Forma yuborilganda
+            form.addEventListener('submit', function(e) {
+                const phoneInput = document.getElementById('phone');
+                const phoneValue = phoneInput.value.trim();
+                
+                // Telefon raqamini tekshirish
+                if (!phoneValue.match(/^\+998[0-9]{9}$/) && !phoneValue.match(/^998[0-9]{9}$/) && 
+                    !phoneValue.match(/^[0-9]{9}$/)) {
+                    e.preventDefault();
+                    alert('Iltimos, to\'g\'ri telefon raqamini kiriting!\nMasalan: +998901234567 yoki 901234567');
+                    phoneInput.focus();
+                }
+            });
+            
+            // Yetkazib berish xabari
+            const shippingElement = document.querySelector('.summary-row:nth-child(2) span:last-child');
+            if (shippingElement && shippingElement.textContent.trim() === 'BEPUL') {
+                console.log('Yetkazib berish bepul!');
+            }
+        });
+    </script>
 </body>
 </html>

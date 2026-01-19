@@ -8,13 +8,133 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f9f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f8fbf9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVIGATION - boshqa sahifalar bilan bir xil */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - boshqa sahifalar bilan bir xil */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
+            }
+            
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
         }
         
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Confirmation Page Styles */
         .confirmation-container {
             max-width: 800px;
             margin: 50px auto;
@@ -191,12 +311,58 @@
                 font-size: 2rem;
             }
             
+            .success-message {
+                font-size: 1.1rem;
+            }
+            
             .action-buttons {
                 flex-direction: column;
             }
             
             .btn {
                 width: 100%;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step {
+                min-width: 100%;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .order-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .success-card {
+                padding: 20px 15px;
+            }
+            
+            .success-title {
+                font-size: 1.8rem;
+            }
+            
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .order-details {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 14px 25px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -205,20 +371,19 @@
     <!-- HEADER -->
     <header>
         <h1>GreenHerb Store</h1>
-        <p>Tabiiy o'simlik dorilari</p>
+        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
     </header>
 
     <!-- NAVIGATION -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Aloqa</a>
-        
-        <a href="{% url 'shop:track_order' %}" class="btn btn-secondary">
-            <i class="fas fa-search"></i> Buyurtmani kuzatish</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
     <div class="confirmation-container">
@@ -281,19 +446,7 @@
                 
                 <div class="detail-row">
                     <span class="detail-label">To'lov usuli:</span>
-                    <span class="detail-value">
-                        {% if order.payment_method == 'cash_pickup' %}
-                            💵 Naqd to'lov (Olib ketishda)
-                        {% elif order.payment_method == 'click' %}
-                            📱 Click
-                        {% elif order.payment_method == 'payme' %}
-                            💳 Payme
-                        {% elif order.payment_method == 'uzum' %}
-                            ⚡ Uzum
-                        {% else %}
-                            {{ order.payment_method|default:payment_method|title }}
-                        {% endif %}
-                    </span>
+                    <span class="detail-value">💵 Naqd to'lov (Olib ketishda)</span>
                 </div>
                 
                 {% if order.total or total %}
@@ -357,31 +510,59 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Store</h3>
-                    <p style="opacity: 0.9; font-size: 1.1rem;">Tabiiy o'simlik dorilari</p>
+    <!-- FOOTER - boshqa sahifalar bilan bir xil -->
+    <footer>
+        <div style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                    <div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Online Do'koni</h3>
+                        <p style="opacity: 0.9; font-size: 1.1rem;">Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 15px;">
-                    <a href="{% url 'shop:track_order' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                        <i class="fas fa-search"></i> Buyurtmani kuzatish
-                    </a>
-                    <a href="tel:+998901234567" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                        <i class="fas fa-phone"></i> Qo'ng'iroq qilish
-                    </a>
+                
+                <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p>© 2026 GreenHerb Store. Barcha huquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
                 </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                <p>© 2025 GreenHerb Store. Barcha huquqlar himoyalangan.</p>
-                <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;">
-                    Ish vaqti: Dushanba - Shanba, 9:00 - 20:00 | Tel: +998 (90) 123-45-67
-                </p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Buyurtma raqamini saqlash
+        document.addEventListener('DOMContentLoaded', function() {
+            // Buyurtma raqamini ko'rsatish
+            const orderNumberElement = document.querySelector('.order-number');
+            if (orderNumberElement) {
+                const orderNumber = orderNumberElement.textContent.trim();
+                console.log('Buyurtma raqami:', orderNumber);
+                
+                // Agar kerak bo'lsa, buyurtma raqamini localStorage ga saqlash
+                if (orderNumber && orderNumber !== 'undefined') {
+                    localStorage.setItem('lastOrderNumber', orderNumber);
+                }
+            }
+            
+            // Tugmalarga hover effekt
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -8,13 +8,93 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Product Detail Styles - Professional Layout */
+        /* ====== GLOBAL STYLES ====== */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: #f8fbf9;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fbf9;
             line-height: 1.6;
         }
-        
+
+        /* ====== HEADER & NAVIGATION ====== */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - barcha sahifalar uchun bir xil */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Product Detail Styles - Professional Layout */
         .product-detail-wrapper {
             max-width: 1200px;
             margin: 30px auto;
@@ -453,23 +533,192 @@
             background: #e8f4ee;
             border-color: #2f6f4e;
         }
+
+        /* ====== FOOTER ====== */
+        footer {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .footer-brand p {
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            background: white;
+            color: #2f6f4e;
+            transform: translateY(-3px);
+        }
+        
+        .footer-links-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin: 30px 0;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-links-bottom a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-links-bottom a:hover {
+            color: #e8f4ee;
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            opacity: 0.8;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .product-detail-wrapper {
+                padding: 0 15px;
+            }
+            
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .product-price-tag {
+                font-size: 1.8rem;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
+            }
+            
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .product-title {
+                font-size: 1.7rem;
+            }
+            
+            .product-price-tag {
+                font-size: 1.5rem;
+                padding: 10px;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+                margin-right: 3px;
+            }
+            
+            .product-main-layout {
+                gap: 20px;
+            }
+            
+            .product-image-card,
+            .product-header,
+            .product-description-card,
+            .features-card,
+            .add-to-cart-card {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- HEADER -->
     <header>
         <h1>GreenHerb Store</h1>
-        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+        <p>Sog'lom Hayot Uchun Tabiiy O'simlik Preparatlari</p>
     </header>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION - barcha sahifalar uchun bir xil -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
     <div class="product-detail-wrapper">
@@ -493,7 +742,11 @@
             <!-- Left Column: Product Image -->
             <div class="product-image-section">
                 <div class="product-image-card">
-                    <img src="{{ herbal.image.url }}" alt="{{ herbal.name }}" class="main-product-image">
+                    <!-- YANGI: get_image_url() dan foydalanish -->
+                    <img src="{{ herbal.get_image_url }}" 
+                         alt="{{ herbal.name }}" 
+                         class="main-product-image"
+                         onerror="this.onerror=null; this.src='{% static 'images/default-product.jpg' %}';">
                 </div>
             </div>
             
@@ -502,7 +755,7 @@
                 <!-- Product Header -->
                 <div class="product-header">
                     <h1 class="product-title">{{ herbal.name }}</h1>
-                    <div class="product-price-tag">${{ herbal.price }}</div>
+                    <div class="product-price-tag">{{ herbal.price|floatformat:0 }} so'm</div>
                 </div>
                 
                 <!-- Product Description -->
@@ -568,7 +821,7 @@
                             </div>
                             
                             <button type="submit" class="add-to-cart-btn">
-                                <i class="fas fa-cart-plus"></i> Savatga Qo'shish - {{ herbal.price }}so'm
+                                <i class="fas fa-cart-plus"></i> Savatga Qo'shish - {{ herbal.price|floatformat:0 }} so'm
                             </button>
                         </div>
                     </form>
@@ -579,15 +832,19 @@
         <!-- Related Products -->
         {% if related_products %}
         <section class="related-products-section">
-            <h2>Related Products</h2>
+            <h2>O'xshash Mahsulotlar</h2>
             <div class="related-products-grid">
                 {% for related in related_products %}
                 <div class="related-product-card">
                     <a href="{% url 'shop:product_detail' related.id %}">
-                        <img src="{{ related.image.url }}" alt="{{ related.name }}" class="related-product-image">
+                        <!-- YANGI: get_image_url() dan foydalanish -->
+                        <img src="{{ related.get_image_url }}" 
+                             alt="{{ related.name }}" 
+                             class="related-product-image"
+                             onerror="this.onerror=null; this.src='{% static 'images/default-product.jpg' %}';">
                     </a>
                     <h4 class="related-product-title">{{ related.name }}</h4>
-                    <div class="related-product-price">${{ related.price }}</div>
+                    <div class="related-product-price">{{ related.price|floatformat:0 }} so'm</div>
                     <form method="POST" action="{% url 'shop:add_to_cart' related.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="shop:product_detail">
@@ -617,29 +874,50 @@
     </div>
 
     <!-- MAIN FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 10px;">GreenHerb Online do'koni</h3>
-                    <p style="opacity: 0.9;">2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>GreenHerb Online do'koni</h3>
+                    <p>2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
                 </div>
-                <div style="display: flex; gap: 15px;">
-                    
-                    <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <div class="social-links">
+                    <a href="https://instagram.com/sardorize_" title="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <a href="https://t.me/sardorize" title="Telegram">
                         <i class="fab fa-telegram"></i>
                     </a>
-                    
                 </div>
             </div>
             
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <div class="footer-links-bottom">
+                <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
+                <a href="{% url 'shop:product_list' %}">Mahsulotlar</a>
+                <a href="{% url 'shop:cart_view' %}">Savat</a>
+                <a href="{% url 'shop:about' %}">Biz Haqimizda</a>
+                <a href="{% url 'shop:contact' %}">Bog'lanish</a>
+                <a href="#">Maxfiylik Siyosati</a>
+                <a href="#">Xizmat Ko'rsatish Shartlari</a>
+            </div>
+            
+            <div class="footer-bottom">
                 <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Agar rasm yuklanmasa, default rasmni ko'rsatish
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.main-product-image, .related-product-image');
+            images.forEach(img => {
+                img.onerror = function() {
+                    this.src = "{% static 'images/default-product.jpg' %}";
+                    this.alt = "Mahsulot rasmi";
+                };
+            });
+        });
+    </script>
 </body>
 </html>

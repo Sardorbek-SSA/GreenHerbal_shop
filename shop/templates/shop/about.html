@@ -3,35 +3,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Biz Haqimizda | GreenHerb Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenHerb store - Biz Haqimizda</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* About Page Styles */
-        body {
-            background: #f8fbf9;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            color: #333;
-            line-height: 1.7;
+        /* ====== GLOBAL STYLES ====== */
+        * {
+            box-sizing: border-box;
         }
-        
-        .about-container {
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fbf9;
+        }
+
+        .container {
             max-width: 1200px;
-            margin: 30px auto;
+            margin: 0 auto;
             padding: 0 20px;
         }
-        
-        /* Hero Section */
+
+        /* ====== HEADER & NAVIGATION ====== */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - home.html dagi kabi */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ====== ABOUT PAGE SPECIFIC STYLES ====== */
         .about-hero {
-            background: linear-gradient(135deg, rgba(47, 111, 78, 0.95), rgba(60, 138, 95, 0.9)), url('https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(47, 111, 78, 0.9), rgba(47, 111, 78, 0.8)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 100px 20px;
+            padding: 80px 20px;
             text-align: center;
-            border-radius: 20px;
             margin-bottom: 50px;
+            border-radius: 0 0 20px 20px;
             position: relative;
             overflow: hidden;
         }
@@ -54,81 +131,23 @@
         }
         
         .about-hero h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 20px;
             font-weight: 800;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .about-hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.2rem;
             opacity: 0.95;
+            line-height: 1.6;
         }
         
-        /* Mission Section */
-        .mission-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            margin-bottom: 80px;
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e8f4ee;
-        }
-        
-        @media (max-width: 768px) {
-            .mission-section {
-                grid-template-columns: 1fr;
-                padding: 30px;
-            }
-        }
-        
-        .mission-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .mission-content h2 {
-            color: #2f6f4e;
-            font-size: 2.5rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .mission-content h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, #2f6f4e, #3c8a5f);
-            border-radius: 2px;
-        }
-        
-        .mission-text {
-            color: #555;
-            font-size: 1.1rem;
-            line-height: 1.9;
-            margin-bottom: 25px;
-        }
-        
-        /* Values Section */
-        .values-section {
-            margin-bottom: 80px;
-        }
-        
+        /* Section Header */
         .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            position: relative;
         }
         
         .section-header h2 {
@@ -145,82 +164,124 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
+            width: 80px;
             height: 4px;
             background: linear-gradient(to right, #2f6f4e, #3c8a5f);
             border-radius: 2px;
         }
         
-        .values-grid {
+        /* About Content */
+        .about-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .value-card {
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid #e8f4ee;
-        }
-        
-        .value-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(47, 111, 78, 0.12);
-            border-color: #2f6f4e;
-        }
-        
-        .value-icon {
-            font-size: 3.5rem;
-            color: #2f6f4e;
-            margin-bottom: 25px;
-            height: 80px;
-            width: 80px;
-            background: #f0f7f3;
-            border-radius: 50%;
-            display: flex;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin: 60px 0;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
         }
         
-        .value-card h3 {
+        .about-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .about-text h3 {
             color: #2f6f4e;
+            margin-top: 30px;
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
         
-        .value-card p {
-            color: #666;
-            line-height: 1.7;
+        .about-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
-        /* Team Section */
-        .team-section {
-            margin-bottom: 80px;
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Mission & Vision */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .mission-card, .vision-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .mission-card h3, .vision-card h3 {
+            color: #2f6f4e;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .mission-icon, .vision-icon {
+            font-size: 3.5rem;
+            color: #2f6f4e;
+            margin-bottom: 25px;
+        }
+        
+        /* Values */
+        .values {
+            margin: 80px 0;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .value-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(47, 111, 78, 0.1);
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            color: #2f6f4e;
+            margin-bottom: 20px;
+        }
+        
+        /* Team */
+        .team {
+            margin: 80px 0;
         }
         
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
+            margin-top: 40px;
         }
         
         .team-member {
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-            border: 1px solid #e8f4ee;
-        }
-        
-        .team-member:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(47, 111, 78, 0.12);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
         }
         
         .team-member img {
@@ -229,96 +290,29 @@
             object-fit: cover;
         }
         
-        .team-info {
+        .team-member-info {
             padding: 25px;
-            text-align: center;
         }
         
-        .team-info h3 {
+        .team-member h4 {
             color: #2f6f4e;
             margin-bottom: 8px;
             font-size: 1.3rem;
         }
         
-        .team-info .position {
-            color: #3c8a5f;
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .team-info p {
+        .team-member p {
             color: #666;
             font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        /* Story Section */
-        .story-section {
-            background: linear-gradient(135deg, #f8fbf9 0%, #e8f4ee 100%);
-            padding: 60px;
-            border-radius: 20px;
-            margin-bottom: 80px;
-            border: 2px solid #2f6f4e;
-        }
-        
-        .story-section h2 {
-            color: #2f6f4e;
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-        }
-        
-        .story-timeline {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            align-items: start;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline-item {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-        
-        .timeline-year {
-            background: #2f6f4e;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-align: center;
-            min-width: 100px;
-        }
-        
-        .timeline-content h3 {
-            color: #2f6f4e;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .timeline-content p {
-            color: #555;
-            line-height: 1.7;
         }
         
         /* CTA Section */
         .cta-section {
-            text-align: center;
-            padding: 60px 40px;
             background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
             color: white;
+            padding: 60px 20px;
             border-radius: 20px;
-            margin-bottom: 60px;
+            text-align: center;
+            margin: 80px 0;
         }
         
         .cta-section h2 {
@@ -326,31 +320,22 @@
             margin-bottom: 20px;
         }
         
-        .cta-section p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-        
         .cta-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 30px;
         }
         
         .cta-btn {
+            display: inline-block;
             padding: 15px 35px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .cta-btn.primary {
@@ -369,26 +354,169 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
-        /* Responsive */
+        /* ====== FOOTER ====== */
+        footer {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .footer-brand p {
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            background: white;
+            color: #2f6f4e;
+            transform: translateY(-3px);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin: 30px 0;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: #e8f4ee;
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            opacity: 0.8;
+        }
+        
+        /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
             .about-hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
-            .about-hero p {
-                font-size: 1.1rem;
-            }
-            
-            .mission-content h2 {
+            .section-header h2 {
                 font-size: 2rem;
             }
             
-            .story-section {
-                padding: 40px 20px;
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
             }
             
-            .cta-section h2 {
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .about-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.7rem;
+            }
+            
+            header h1 {
                 font-size: 2rem;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+                margin-right: 3px;
             }
         }
     </style>
@@ -397,99 +525,97 @@
     <!-- HEADER -->
     <header>
         <h1>GreenHerb Store</h1>
-        <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
+        <p>Sog'lom Hayot Uchun Tabiiy O'simlik Preparatlari</p>
     </header>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION - home.html dagi kabi -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}" class="active"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
-    <div class="about-container">
-        <!-- HERO SECTION -->
-        <section class="about-hero">
-            <div class="about-hero-content">
-                <h1>Bizning Hikoya</h1>
-                <p>GreenHerb Store'ning sayohatini kashf eting — kichik dorivor o'simlik bog'idan tabiiy salomatlik sohasidagi ishonchli nomga aylanguncha.</p>
-                <div style="margin-top: 40px;">
-                    <a href="#mission" class="cta-btn primary">
-                        <i class="fas fa-compass"></i> Bizning Vazifamiz
-                    </a>
+    <!-- HERO SECTION -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>Bizning Maqsad va Qadriyatlarimiz</h1>
+            <p>GreenHerb - bu tabiatning shifobaxsh kuchini olib keluvchi, har bir odamga sog'lom va muvozanatli hayotni taqdim etuvchi kompaniya</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- ABOUT CONTENT -->
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Bizning Tariximiz</h2>
+                <p>GreenHerb 2015 yilda kichik oilaviy ferma sifatida boshlangan. Dastlabki kunlarida biz atrof-muhitga zarar yetkazmasdan, tabiiy usullarda dorivor o'simliklar yetishtirishga qaratilgan edik.</p>
+                
+                <p>Yillar davomida bizning ishonchimiz va sadoqatimiz o'z samarasini berdi. Bugungi kunda GreenHerb - bu mamlakatimizdagi eng ishonchli tabiiy o'simlik preparatlari yetkazib beruvchilaridan biriga aylangan.</p>
+                
+                <h3>Bizning Filosofiyamiz</h3>
+                <p>Biz tabiat bilan uyg'un yashashga va uning shifobaxsh xususiyatlaridan oqilona foydalanishga ishonamiz. Har bir mahsulotimiz atrof-muhitga hurmat, an'anaviy bilimlar va zamonaviy ilmiy tadqiqotlar uyg'unligi asosida yaratiladi.</p>
+            </div>
+            
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tabiiy o'simliklar">
+            </div>
+        </div>
+
+        <!-- MISSION & VISION -->
+        <div class="mission-vision">
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-bullseye"></i>
                 </div>
+                <h3>Bizning Maqsadimiz</h3>
+                <p>Har bir insonga tabiiy, xavfsiz va samarali o'simlik preparatlarini yetkazib berish orqali jamiyatning sog'lig'ini yaxshilash. Biz odamlar va tabiat o'rtasidagi uyg'unlikni tiklashga intilamiz.</p>
             </div>
-        </section>
+            
+            <div class="vision-card">
+                <div class="vision-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Bizning Ko'rinishimiz</h3>
+                <p>Tabiiy davolash usullari asosida tikluvchi sog'liqni saqlash tizimini shakllantirish. Dunyo bo'ylab odamlar salomatlikka erishishda birinchi navbatda tabiiy yechimlarni tanlaydigan jamiyatni yaratish.</p>
+            </div>
+        </div>
 
-        <!-- MISSION SECTION -->
-        <section id="mission" class="mission-section">
-            <div>
-                <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                     alt="Our Mission" class="mission-image">
-            </div>
-            <div class="mission-content">
-                <h2>Bizning Vazifamiz va Qarashlarimiz</h2>
-                <p class="mission-text">
-                   GreenHerb Store'da bizning missiyamiz sodda, ammo chuqur ma'noga ega: sogliq va farovonlikning eng yuqori darajasiga erishish yo'lingizni qo'llab-quvvatlaydigan, 100% tabiiy va eng yuqori sifatli dorivor o'simlik mahsulotlarini taqdim etish.
-                </p>
-                <p class="mission-text">
-                    2020-yilda tabib Sayyodjon Ismoilov tomonidan asos solingan, bizning qarashimiz — qadimiy dorivor o'simliklar donoligi zamonaviy ilm-fan bilan uyg'unlashgan maskan yaratish edi. Biz tabiatning tana va ongni davolash, tiklash hamda oziqlantirish qudratiga ishonamiz.
-                </p>
-                <p class="mission-text">
-                   Biz taqdim etayotgan har bir mahsulot sofligi, kuchi va samaradorligini ta'minlash maqsadida sinchkovlik bilan tanlanadi, axloqiy tamoyillar asosida yetkazib olinadi va qat'iy sinovlardan o'tkaziladi. Biz shunchaki dorivor o'simliklarni sotmaymiz — avlodlar davomida shakllangan tabiiy shifo an'anasini ulashamiz.
-                </p>
-            </div>
-        </section>
-
-        <!-- OUR VALUES -->
-        <section class="values-section">
+        <!-- VALUES -->
+        <div class="values">
             <div class="section-header">
-                <h2>Bizning Asosiy Qadriyatlarimiz</h2>
-                <p style="color: #666; max-width: 700px; margin: 15px auto 0;">Biz qiladigan barcha ishlarimizga yo'l ko'rsatuvchi tamoyillar</p>
+                <h2>Bizning Qadriyatlarimiz</h2>
+                <p class="section-subtitle">GreenHerb kompaniyasi quyidagi asosiy qadriyatlarga asoslanadi</p>
             </div>
             
             <div class="values-grid">
                 <div class="value-card">
                     <div class="value-icon">
-                        <i class="fas fa-seedling"></i>
-                    </div>
-                    <h3>Yuqori Sifat</h3>
-                    <p>Biz faqat 100% tabiiy, organik ingredientlardan foydalanamiz — sun'iy qo'shimchalar, konservantlar yoki to'ldiruvchi moddalar mutlaqo yo'q.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
                         <i class="fas fa-handshake"></i>
                     </div>
-                    <h3>Axloqiy manbalardan ta'minlash</h3>
-                    <p>Barcha dorivor o'simliklarimiz mahalliy hamjamiyatlarni qo'llab-quvvatlaydigan barqaror xo'jaliklardan axloqiy tamoyillar asosida yetkazib olinadi.</p>
+                    <h3>Ishonchlilik</h3>
+                    <p>Har bir mahsulotimiz sifat nazoratidan o'tadi va 100% tabiiylik kafolati beriladi.</p>
                 </div>
                 
                 <div class="value-card">
                     <div class="value-icon">
-                        <i class="fas fa-flask"></i>
+                        <i class="fas fa-leaf"></i>
                     </div>
-                    <h3>Ilmiy Halollik</h3>
-                    <p>Har bir mahsulotimiz sofligi, kuchi va xavfsizlik standartlariga muvofiqligini ta'minlash uchun qat'iy sinovlardan o'tkaziladi.</p>
+                    <h3>Tabiatga Hurmat</h3>
+                    <p>Barqaror etishtirish usullari va atrof-muhitga hurmat bizning tamoyillarimizdir.</p>
                 </div>
                 
                 <div class="value-card">
                     <div class="value-icon">
-                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-users"></i>
                     </div>
-                    <h3>Mijozlar Salomatligi</h3>
-                    <p>Sizning sog'liq sari sayohatingiz — bizning ustuvor vazifamiz. Biz shaxsiylashtirilgan maslahat va qo'llab-quvvatlashni taqdim etamiz.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Barqarorlik</h3>
-                    <p>Biz sayyoramizni asrash uchun ekologik toza amaliyotlar va qadoqlashga sodiqmiz.</p>
+                    <h3>Hamjamiyat</h3>
+                    <p>Mijozlarimiz bilan ishonchli munosabatlar va ochiq kommunikatsiya.</p>
                 </div>
                 
                 <div class="value-card">
@@ -497,176 +623,94 @@
                         <i class="fas fa-graduation-cap"></i>
                     </div>
                     <h3>Ta'lim</h3>
-                    <p>Biz mijozlarimizni dorivor o'simliklar orqali sog'lom turmush haqida bilimlar bilan quvvatlantirishga ishonamiz.</p>
+                    <p>Tabiiy davolash usullari haqida bilim va xabardorlikni tarqatish.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- OUR STORY TIMELINE -->
-        <section class="story-section">
-            <h2>Bizning Safar</h2>
-            <div class="story-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">2020</div>
-                    <div class="timeline-content">
-                        <h3>Boshlanish</h3>
-                        <p>GreenHerb har bir inson uchun tabiiy shifoni yetkazish maqsadi bilan kichik dorivor o'simlik bog'ida tashkil etilgan.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">2022</div>
-                    <div class="timeline-content">
-                        <h3>Birinchi Sertifikat</h3>
-                        <p>Organik sertifikatga ega boldik va mahsulotlarimiz qatorini 50 dan ortiq dorivor o'simlik mahsulotlarini o'z ichiga olgan holda kengaytirdik.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">2023</div>
-                    <div class="timeline-content">
-                        <h3>Milliy Miqyosda Tan Olinishi</h3>
-                        <p>“Tabiiy Sog'lik” jurnalida yoritildi va dorivor o'simlik mahsulotlari sifati bo'yicha yuksak darajada e'tirof etildi.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">2024</div>
-                    <div class="timeline-content">
-                        <h3>Barqarorlik Mukofoti</h3>
-                        <p>Barqaror amaliyotlar va ekologik toza qadoqlash uchun "Green Business Award" mukofoti bilan taqdirlandik.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-year">2025</div>
-                    <div class="timeline-content">
-                        <h3>Bugun va Kelajakda</h3>
-                        <p>200 dan ortiq mahsulot bilan 50 000 dan ziyod mamnun mijozlarga xizmat ko'rsatib kelmoqdamiz va sog'lom turmush hamjamiyatimizni kengaytirishda davom etyapmiz.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TEAM SECTION -->
-        <section class="team-section">
+        <!-- TEAM -->
+        <div class="team">
             <div class="section-header">
                 <h2>Bizning Jamoa</h2>
-                <p style="color: #666; max-width: 700px; margin: 15px auto 0;">GreenHerb ortida turgan fidoyi mutaxassislar</p>
+                <p class="section-subtitle">GreenHerb muvaffaqiyati bizning tajribali va o'z ishiga sadoqatli jamoamiz hisobiga</p>
             </div>
             
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dr. Sarah Wilson">
-                    <div class="team-info">
-                        <h3>Tabib Sayyodjon Ismoilov</h3>
-                        <p class="position">Asoschi va Yetakchi Tabib</p>
-                        <p>Dorivor o'simliklar sohasida 5 yildan ortiq tajribaga ega sara mahsulotlarimizni ishlab chiqish va sifat nazoratiga rahbarlik qiladi.</p>
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Sardor Ismatov">
+                    <div class="team-member-info">
+                        <h4>Sardor Ismatov</h4>
+                        <p>Asoschi & Bosh Direktor</p>
+                        <p>Fitoterapiya bo'yicha mutaxassis</p>
                     </div>
                 </div>
                 
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80" alt="Michael Chen">
-                    <div class="team-info">
-                        <h3>Abduqodir</h3>
-                        <p class="position">Barqarorlik bo'yicha Rahbar</p>
-                        <p>Barcha xomashyo ta'minoti eng yuqori ekologik standartlarga mos bo'lishini ta'minlaydi.</p>
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Munisaxon Ibragimova">
+                    <div class="team-member-info">
+                        <h4>Munisaxon Ibragimova</h4>
+                        <p>Mahsulotlar Menejeri</p>
+                        <p>Dorivor o'simliklar mutaxassisi</p>
                     </div>
                 </div>
                 
                 <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dr. Lisa Park">
-                    <div class="team-info">
-                        <h3>Dilafruzxon Sharipova</h3>
-                        <p class="position">Sotuvchisi</p>
-                        <p>Asosiy do'konda sotuv bo'yicha menejer</p>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Maria Garcia">
-                    <div class="team-info">
-                        <h3>Sardor Abdurahmonov</h3>
-                        <p class="position">Online Menejer</p>
-                        <p>Online sotuv faoliyatini olib boruvchi shaxs</p>
+                    <img src="{% static 'images/team/Me.jpg' %}" alt="Sardor Abdurakhmonov">
+                    <div class="team-member-info">
+                        <h4>Sardor Abdurakhmonov</h4>
+                        <p>Mijozlar Xizmati</p>
+                        <p>Online xizmatlar</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- CTA SECTION -->
-        <section class="cta-section">
-            <h2>Sog'lom hayot sari bo'lgan safarimizga qo'shiling</h2>
-            <p>Yuqori sifatli dorivor o'simlik mahsulotlarimiz bilan tabiiy shifoning qudratini kashf eting. Sog'lom hayot sari safaringizni bugunoq boshlang!</p>
+        <div class="cta-section">
+            <h2>Bizning Hamjamiyatimizga Qo'shiling</h2>
+            <p>Tabiiy o'simliklar orqali sog'liq va farovonlik yo'lida bizga qo'shiling. Bugun biz bilan bog'laning!</p>
+            
             <div class="cta-buttons">
-                <a href="{% url 'shop:product_list' %}" class="cta-btn primary">
-                    <i class="fas fa-leaf"></i> Bizning Mahsulotlardan Xarid Qiling
+                <a href="{% url 'shop:contact' %}" class="cta-btn primary">
+                    <i class="fas fa-envelope"></i> Bog'lanish
                 </a>
-                <a href="#contact" class="cta-btn secondary">
-                    <i class="fas fa-envelope"></i> Biz bilan bog'laning
+                <a href="{% url 'shop:product_list' %}" class="cta-btn secondary">
+                    <i class="fas fa-leaf"></i> Mahsulotlarimiz
                 </a>
             </div>
-        </section>
+        </div>
     </div>
 
     <!-- FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 50px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Online do'koni</h3>
-                    <p style="opacity: 0.9; font-size: 1.1rem;">2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>GreenHerb Online Do'koni</h3>
+                    <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
                 </div>
-                <div style="display: flex; gap: 20px;">
-                    
-                    <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 50px; height: 50px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.3s ease;">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 50px; height: 50px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.3s ease;">
+                <div class="social-links">
+                    <a href="https://t.me/sardorize" title="Telegram">
                         <i class="fab fa-telegram"></i>
                     </a>
-                    
+                    <a href="https://instagram.com/sardorize_" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
             </div>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
-                <div>
-                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">Tezkor Havolalar</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="{% url 'shop:home' %}" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">Bosh Sahifa</a></li>
-                        <li><a href="{% url 'shop:product_list' %}" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">Mahsulotlar</a></li>
-                        <li><a href="#" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">Biz Haqimizda</a></li>
-                        <li><a href="#" style="color: white; text-decoration: none; opacity: 0.8; display: block; margin-bottom: 10px; transition: opacity 0.3s ease;">Bog'lanish</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">A'loqa Ma'lumotlari</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="color: white; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-map-marker-alt"></i> 20-uy Bo'rbonliq qishlog'i, Oltiariq tumani, Farg'ona viloyati
-                        </li>
-                        <li style="color: white; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-phone"></i> +998 97 210-04-41
-                        </li>
-                        <li style="color: white; opacity: 0.8; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-envelope"></i> info@greenherbstore.com
-                        </li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 style="font-size: 1.2rem; margin-bottom: 15px;">Newsletter</h4>
-                    <p style="color: white; opacity: 0.8; margin-bottom: 15px;">Dorivor o'simliklar bo'yicha maslahatlar va eksklyuziv takliflardan xabardor bo'lish uchun obuna bo'ling!</p>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="email" placeholder="Sizning emailingiz" style="flex-grow: 1; padding: 12px; border: none; border-radius: 5px; font-size: 0.9rem;">
-                        <button style="background: white; color: #2f6f4e; border: none; padding: 12px 20px; border-radius: 5px; font-weight: 600; cursor: pointer;">Obuna Bo'lish</button>
-                    </div>
-                </div>
+            <div class="footer-links">
+                <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
+                <a href="{% url 'shop:product_list' %}">Mahsulotlar</a>
+                <a href="{% url 'shop:cart_view' %}">Savat</a>
+                <a href="{% url 'shop:about' %}">Biz Haqimizda</a>
+                <a href="{% url 'shop:contact' %}">Bog'lanish</a>
+                <a href="#">Maxfiylik Siyosati</a>
+                <a href="#">Xizmat Ko'rsatish Shartlari</a>
             </div>
             
-            <div style="text-align: center; padding-top: 30px; border-top: 2px solid rgba(255,255,255,0.2);">
-                <p style="font-size: 1.1rem;">© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            <div class="footer-bottom">
+                <p>© 2026 GreenHerb Store | 100% Tabiiy Mahsulotlar</p>
             </div>
         </div>
     </footer>

@@ -8,6 +8,97 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ====== GLOBAL STYLES ====== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fbf9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ====== HEADER & NAVIGATION ====== */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - barcha sahifalar uchun bir xil */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
         /* ====== HERO SECTION ====== */
         .hero {
             background: linear-gradient(rgba(47, 111, 78, 0.9), rgba(47, 111, 78, 0.8)), url('https://images.unsplash.com/photo-1585771724684-382b4b4f5d53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
@@ -40,6 +131,7 @@
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.95;
+            line-height: 1.6;
         }
         
         .hero-btn {
@@ -60,7 +152,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             background: #e8f4ee;
         }
-        
+
         /* ====== SECTION HEADER ====== */
         .section-header {
             text-align: center;
@@ -93,65 +185,156 @@
             font-size: 1.1rem;
             max-width: 700px;
             margin: 15px auto 0;
+            line-height: 1.6;
+        }
+
+        /* ====== PRODUCTS GRID ====== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
         }
         
-        /* ====== PRODUCT CARD ====== */
-        .product {
+        .product-card {
             background: white;
             border-radius: 15px;
-            padding: 20px;
+            overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eaeaea;
         }
         
-        .product:hover {
+        .product-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(47, 111, 78, 0.15);
         }
         
-        .product-cart-image {
+        .product-image-container {
             display: block;
-            height: 200px;
+            height: 220px;
             overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            position: relative;
+            background: #f5f9f7;
+            text-decoration: none;
         }
         
-        .product-cart-image img {
+        .product-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease;
         }
         
-        .product:hover .product-cart-image img {
-            transform: scale(1.05);
+        .product-card:hover .product-image {
+            transform: scale(1.1);
         }
         
-        .product h3 {
+        .product-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-title-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .product-title {
+            margin: 0 0 10px 0;
             color: #2f6f4e;
-            margin-bottom: 10px;
             font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.3s ease;
         }
         
-        .product p {
+        .product-title:hover {
+            color: #3c8a5f;
+            text-decoration: underline;
+        }
+        
+        .product-description {
             color: #666;
-            margin-bottom: 15px;
+            margin: 0 0 15px 0;
             line-height: 1.5;
+            font-size: 0.95rem;
+            flex-grow: 1;
         }
         
-        .price {
-            font-size: 1.5rem;
+        .product-price {
+            font-size: 1.6rem;
             font-weight: 700;
             color: #2f6f4e;
-            margin: 15px 0;
+            margin: 10px 0 15px;
         }
         
+        .product-form {
+            margin-top: auto;
+        }
+        
+        .add-to-cart-btn {
+            display: inline-block;
+            width: 100%;
+            background: #2f6f4e;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: #3c8a5f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(47, 111, 78, 0.2);
+        }
+        
+        .add-to-cart-btn i {
+            margin-right: 8px;
+        }
+
+        /* ====== EMPTY STATE ====== */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .empty-state p {
+            color: #777;
+            max-width: 400px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
         /* ====== TESTIMONIALS ====== */
         .testimonials-section {
-            margin: 60px 0;
+            margin: 80px 0;
         }
         
         .testimonial-grid {
@@ -162,9 +345,15 @@
         
         .testimonial-card {
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
         .testimonial-text {
@@ -172,6 +361,7 @@
             margin-bottom: 20px;
             color: #555;
             line-height: 1.6;
+            font-size: 1rem;
         }
         
         .testimonial-author {
@@ -187,12 +377,24 @@
             object-fit: cover;
         }
         
+        .testimonial-author h4 {
+            color: #2f6f4e;
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-author p {
+            margin: 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
         /* ====== FOOTER ====== */
         footer {
             background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
             color: white;
             padding: 40px 20px;
-            margin-top: 60px;
+            margin-top: 80px;
         }
         
         .footer-content {
@@ -214,6 +416,12 @@
             margin-bottom: 10px;
         }
         
+        .footer-brand p {
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
         .social-links {
             display: flex;
             gap: 15px;
@@ -223,13 +431,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             color: white;
             text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
         
         .social-links a:hover {
@@ -241,7 +450,7 @@
         .footer-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 25px;
             justify-content: center;
             margin: 30px 0;
             padding: 30px 0;
@@ -253,6 +462,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
         
         .footer-links a:hover {
@@ -265,7 +475,7 @@
             padding-top: 20px;
             opacity: 0.8;
         }
-        
+
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
             .hero {
@@ -280,6 +490,27 @@
                 font-size: 2rem;
             }
             
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
+            }
+            
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+            
             .footer-main {
                 flex-direction: column;
                 text-align: center;
@@ -288,6 +519,40 @@
             .footer-links {
                 flex-direction: column;
                 text-align: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.7rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+                margin-right: 3px;
             }
         }
     </style>
@@ -299,14 +564,16 @@
         <p>Sog'lom Hayot Uchun Tabiiy Preparatlar</p>
     </header>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION - barcha sahifalar uchun bir xil -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}" class="active"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
     <!-- HERO SECTION -->
@@ -314,7 +581,7 @@
         <div class="hero-content">
             <h1>Mahsulotlarimiz Bilan Tanishing</h1>
             <p>Sofligi va samaradorligi sinchkovlik bilan tanlangan yuqori sifatli dorivor o'simlik mahsulotlarimiz to'plamini kashf eting.</p>
-            <a href="#products" class="hero-btn">Hoziroq xarid qiling<i class="fas fa-arrow-right"></i></a>
+            <a href="#products" class="hero-btn">Hoziroq xarid qiling <i class="fas fa-arrow-right"></i></a>
         </div>
     </section>
 
@@ -325,47 +592,62 @@
             <p class="section-subtitle">Sog'lom turmush sari sayohatingiz uchun tabiiy dorivor o'simliklardan iborat keng assortimentimizdan tanlang.</p>
         </div>
         
-        <div class="products">
+        <!-- PRODUCTS GRID -->
+        <div class="products-grid">
             {% for herbal in herbals %}
-            <div class="product">
-                <img src="{{ herbal.image_url }}" 
-                    alt="{{ herbal.name }}"
-                    style="width: 300px; height: 200px; object-fit: cover;">
-                <h3>{{ herbal.name }}</h3>
-                <p>{{ herbal.description|truncatechars:100 }}</p>
-                <div class="price">${{ herbal.price }}</div>
+            <div class="product-card">
+                <!-- RASM: product_detail sahifasiga link -->
+                <a href="{% url 'shop:product_detail' herbal.id %}" class="product-image-container">
+                    <!-- YANGI: modeldagi get_image_url() methodidan foydalanish -->
+                    <img src="{{ herbal.get_image_url }}" 
+                         alt="{{ herbal.name }}"
+                         class="product-image"
+                         onerror="this.onerror=null; this.src='{% static 'images/default-product.jpg' %}';">
+                </a>
                 
-                <!-- FORM bilan add to cart -->
-                <form method="POST" action="{% url 'shop:add_to_cart' herbal.id %}" style="margin-top: 15px;">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="shop:product_list">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="primary-btn" style="width: 100%;">
-                        <i class="fas fa-cart-plus"></i> Savatga Qo'shish
-                    </button>
-                </form>
+                <div class="product-content">
+                    <!-- NOM: product_detail sahifasiga link -->
+                    <a href="{% url 'shop:product_detail' herbal.id %}" class="product-title-link">
+                        <h3 class="product-title">{{ herbal.name }}</h3>
+                    </a>
+                    
+                    <p class="product-description">{{ herbal.description|truncatechars:120 }}</p>
+                    <div class="product-price">{{ herbal.price|floatformat:0 }} so'm</div>
+                    
+                    <form method="POST" action="{% url 'shop:add_to_cart' herbal.id %}" class="product-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="shop:product_list">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="add-to-cart-btn">
+                            <i class="fas fa-cart-plus"></i> Savatga Qo'shish
+                        </button>
+                    </form>
+                </div>
             </div>
             {% empty %}
-            <div class="empty-state" style="text-align: center; width: 100%; padding: 60px 20px;">
-                <i class="fas fa-seedling" style="font-size: 4rem; color: #ccc; margin-bottom: 20px;"></i>
-                <h3 style="color: #666; margin-bottom: 15px;">Mahsulot topilmadi</h3>
-                <p style="color: #777; max-width: 400px; margin: 0 auto;">Eng so'nggi dorivor o'simlik mahsulotlarimiz uchun tez orada yana tashrif buyuring!</p>
+            <div class="empty-state">
+                <i class="fas fa-seedling empty-state-icon"></i>
+                <h3>Mahsulot topilmadi</h3>
+                <p>Eng so'nggi dorivor o'simlik mahsulotlarimiz uchun tez orada yana tashrif buyuring!</p>
+                <a href="{% url 'shop:home' %}" class="hero-btn">
+                    <i class="fas fa-home"></i> Bosh Sahifaga Qaytish
+                </a>
             </div>
             {% endfor %}
         </div>
         
         <!-- TESTIMONIALS -->
         <section class="testimonials-section">
-            <div class="section-header" style="margin-bottom: 40px;">
-                <h2 style="color: #2f6f4e;">Nega Mijozlar Bizni Tanlashadi</h2>
+            <div class="section-header">
+                <h2>Nega Mijozlar Bizni Tanlashadi</h2>
                 <p class="section-subtitle">Sog'lom hayot sari yo'lda minglab mamnun mijozlarimiz safiga qo'shiling.</p>
             </div>
             
             <div class="testimonial-grid">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">“Dorivor o'simliklarning sifati juda yuqori. Ko'plab brendlarni sinab ko'rganman, ammo GreenHerb sofligi va samaradorligi bilan ajralib turadi.”</p>
+                    <p class="testimonial-text">"Dorivor o'simliklarning sifati juda yuqori. Ko'plab brendlarni sinab ko'rganman, ammo GreenHerb sofligi va samaradorligi bilan ajralib turadi."</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Lisa Park" class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Lisa Park" class="testimonial-avatar">
                         <div>
                             <h4>Munisa Valiyeva</h4>
                             <p>Wellness Blogger</p>
@@ -374,9 +656,9 @@
                 </div>
                 
                 <div class="testimonial-card">
-                    <p class="testimonial-text">“O'simlikshunos sifatida GreenHerb'ni barcha mijozlarimga tavsiya qilaman. Ularning xomashyo tanlash standartlari mukammal.”</p>
+                    <p class="testimonial-text">"O'simlikshunos sifatida GreenHerb'ni barcha mijozlarimga tavsiya qilaman. Ularning xomashyo tanlash standartlari mukammal."</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. James Wilson" class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="Dr. Ermatov" class="testimonial-avatar">
                         <div>
                             <h4>Dr. Ermatov</h4>
                             <p>O'simlikshunos</p>
@@ -385,9 +667,9 @@
                 </div>
                 
                 <div class="testimonial-card">
-                    <p class="testimonial-text">“Romashka aralashmasi menga uyqusizlikni tabiiy yo'l bilan yengishga yordam berdi. Ushbu ajoyib mahsulot uchun juda minnatdorman!”</p>
+                    <p class="testimonial-text">"Romashka aralashmasi menga uyqusizlikni tabiiy yo'l bilan yengishga yordam berdi. Ushbu ajoyib mahsulot uchun juda minnatdorman!"</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sophia Chen" class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/37.jpg" alt="Saodatxon Ismoilova" class="testimonial-avatar">
                         <div>
                             <h4>Saodatxon Ismoilova</h4>
                             <p>5 Yillik mijoz</p>
@@ -407,9 +689,12 @@
                     <p>2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
                 </div>
                 <div class="social-links">
-
-                    <a href="https://instagram.com/sardorize_"><i class="fab fa-instagram"></i></a>
-                    <a href="https://t.me/sardorize"><i class="fab fa-telegram"></i></a>
+                    <a href="https://instagram.com/sardorize_" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/sardorize" title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
                 </div>
             </div>
             
@@ -417,8 +702,8 @@
                 <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
                 <a href="{% url 'shop:product_list' %}">Mahsulotlar</a>
                 <a href="{% url 'shop:cart_view' %}">Savat</a>
-                <a href="#">Biz Haqimizda</a>
-                <a href="#">Bog'lanish</a>
+                <a href="{% url 'shop:about' %}">Biz Haqimizda</a>
+                <a href="{% url 'shop:contact' %}">Bog'lanish</a>
                 <a href="#">Maxfiylik Siyosati</a>
                 <a href="#">Xizmat Ko'rsatish Shartlari</a>
             </div>
@@ -428,5 +713,18 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Agar rasm yuklanmasa, default rasmni ko'rsatish
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.product-image');
+            images.forEach(img => {
+                img.onerror = function() {
+                    this.src = "{% static 'images/default-product.jpg' %}";
+                    this.alt = "Mahsulot rasmi";
+                };
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,24 +1,50 @@
 from django.db import models
+import os
 
 class Herbal(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    is_home = models.BooleanField(default=False)
-    image_name = models.CharField(max_length=255, blank=True, default='default.jpg') 
+    name = models.CharField(max_length=255, verbose_name="Mahsulot nomi")
+    description = models.TextField(verbose_name="Tavsif")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Narx")
+    image = models.ImageField(
+        upload_to='herbals/',
+        verbose_name="Mahsulot rasmi",
+        help_text="Rasmni yuklang (JPG, PNG formatida)",
+        blank=True,
+        null=True
+    )
     
-    def image_url(self):
-        """Rasm URL ni qaytarish"""
-        if self.image_name:
-            return f'/static/herbals/{self.image_name}'
-        return '/static/herbals/default.jpg'
+    image_name = models.CharField(
+        max_length=255, 
+        blank=True, 
+        null=True,
+        verbose_name="Eski rasm nomi",
+        help_text="Avvalgi rasmlar uchun"
+    )
+    
+    is_home = models.BooleanField(default=False, verbose_name="Bosh sahifada ko'rsatish")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
+    
+    def get_image_url(self):
+        """Rasm URL qaytarish"""
+        if self.image:
+            return self.image.url
+        elif self.image_name:
+            from django.templatetags.static import static
+            return static(f'herbals/{self.image_name}')
+        else:
+            from django.templatetags.static import static
+            return static('images/default-product.jpg')
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Dorivor o'simlik"
+        verbose_name_plural = "Dorivor o'simliklar"
+        ordering = ['-created_at']
 
 
 class PickupPoint(models.Model):
-    """Olib ketish punktlari"""
     name = models.CharField(max_length=200, verbose_name="Punkt nomi")
     address = models.TextField(verbose_name="Manzil")
     phone = models.CharField(max_length=20, verbose_name="Telefon")
@@ -33,6 +59,7 @@ class PickupPoint(models.Model):
         verbose_name = "Olib ketish punkti"
         verbose_name_plural = "Olib ketish punktlari"
 
+
 class Order(models.Model):
     ORDER_STATUS = [
         ('pending', "Kutilmoqda"),
@@ -44,9 +71,6 @@ class Order(models.Model):
     
     PAYMENT_METHODS = [
         ('cash_pickup', "Naqd (Olib ketishda)"),
-        ('click', "Click"),
-        ('payme', "Payme"),
-        ('uzum', "Uzum"),
     ]
     
     order_number = models.CharField(max_length=20, unique=True, verbose_name="Buyurtma raqami")
@@ -54,29 +78,22 @@ class Order(models.Model):
     phone = models.CharField(max_length=20, verbose_name="Telefon raqami")
     email = models.EmailField(blank=True, verbose_name="Email")
     
-    # Pickup point
     pickup_point = models.ForeignKey(PickupPoint, on_delete=models.SET_NULL, 
                                      null=True, verbose_name="Olib ketish punkti")
     
-    # Payment info
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, 
                                       default='cash_pickup', verbose_name="To'lov usuli")
     payment_status = models.BooleanField(default=False, verbose_name="To'lov holati")
     
-    # Totals
     subtotal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Jami summa")
-    # shipping = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name="Yetkazib berish")
     total = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Umumiy summa")
     
-    # Status
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending', verbose_name="Holati")
     
-    # Dates
     pickup_date = models.DateField(null=True, blank=True, verbose_name="Olib ketish sanasi")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Yangilangan vaqt")
     
-    # Notes
     notes = models.TextField(blank=True, verbose_name="Qo'shimcha eslatmalar")
     
     def __str__(self):
@@ -87,8 +104,11 @@ class Order(models.Model):
         verbose_name_plural = "Buyurtmalar"
         ordering = ['-created_at']
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name="Buyurtma")
+    herbal = models.ForeignKey(Herbal, on_delete=models.SET_NULL, 
+                              null=True, blank=True, related_name='order_items')
     product_name = models.CharField(max_length=200, verbose_name="Mahsulot nomi")
     product_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Narxi")
     quantity = models.IntegerField(verbose_name="Miqdori")

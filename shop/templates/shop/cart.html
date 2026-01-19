@@ -8,6 +8,97 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fbf9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & NAVIGATION - home.html dagi kabi */
+        header {
+            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* NAVIGATION - home.html dagi kabi bir xil */
+        nav {
+            background: #f8f9fa;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+        }
+
+        nav a {
+            color: #2f6f4e;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #2f6f4e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #2f6f4e;
+            color: white;
+        }
+
+        nav a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
         /* Cart page specific styles */
         .cart-container {
             max-width: 1200px;
@@ -138,13 +229,13 @@
             object-fit: cover;
             border: 2px solid #e8f4ee;
             background: white;
-            padding: 5px;
         }
         
         .cart-item-info h4 {
             color: #2f6f4e;
             margin-bottom: 8px;
             font-size: 1.2rem;
+            font-weight: 600;
         }
         
         .item-price {
@@ -351,6 +442,35 @@
             box-shadow: 0 8px 20px rgba(47, 111, 78, 0.4);
         }
         
+        /* Quantity buttons */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .quantity-btn {
+            background: #e8f4ee;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2f6f4e;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: #2f6f4e;
+            color: white;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .cart-table {
@@ -373,6 +493,84 @@
                 width: 80px;
                 height: 80px;
             }
+            
+            .cart-header h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 0 5px;
+            }
+            
+            nav a {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                margin: 2px;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .cart-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-action-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                min-width: 100px;
+            }
+            
+            nav a i {
+                font-size: 0.9rem;
+            }
+            
+            .cart-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .cart-header p {
+                font-size: 1rem;
+            }
+            
+            .cart-table th,
+            .cart-table td {
+                font-size: 0.9rem;
+                padding: 10px 5px;
+            }
+            
+            .quantity-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+            
+            .quantity-display {
+                padding: 5px 10px;
+                font-size: 1rem;
+                min-width: 50px;
+            }
         }
     </style>
 </head>
@@ -383,14 +581,16 @@
         <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
     </header>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION - Faqat cart linkiga active class -->
     <nav>
-        <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-        <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-        <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-        <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-        <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-        <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        <div class="nav-container">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}" class="active"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
     </nav>
 
     <div class="cart-container">
@@ -435,29 +635,71 @@
                 <tbody>
                     {% for product_id, item in cart.items %}
                     <tr>
+                        <!-- RASM VA NOM -->
                         <td>
                             <div class="cart-item">
-                                {% if item.image %}
-                                <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-item-image">
-                                {% else %}
-                                <div style="width: 100px; height: 100px; background: #e8f4ee; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-leaf" style="color: #2f6f4e; font-size: 2.5rem;"></i>
+                                <!-- RASM -->
+                                <div style="position: relative;">
+                                    {% if item.image_url %}
+                                    <img src="{{ item.image_url }}" 
+                                         alt="{{ item.name }}" 
+                                         class="cart-item-image"
+                                         onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    {% else %}
+                                    <div style="width: 100px; height: 100px; background: #e8f4ee; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-leaf" style="color: #2f6f4e; font-size: 2.5rem;"></i>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- Fallback (rasm yuklanmasa) -->
+                                    {% if item.image_url %}
+                                    <div class="image-fallback" style="width: 100px; height: 100px; background: #e8f4ee; border-radius: 10px; display: none; align-items: center; justify-content: center; position: absolute; top: 0; left: 0;">
+                                        <i class="fas fa-leaf" style="color: #2f6f4e; font-size: 2.5rem;"></i>
+                                    </div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
+                                
+                                <!-- NOM -->
                                 <div class="cart-item-info">
                                     <h4>{{ item.name }}</h4>
                                 </div>
                             </div>
                         </td>
+                        
+                        <!-- NARXI -->
                         <td>
-                            <span class="item-price">${{ item.price }}</span>
+                            <span class="item-price">{{ item.price|floatformat:0 }} so'm</span>
                         </td>
+                        
+                        <!-- MIQDORI -->
                         <td>
-                            <span class="quantity-display">{{ item.qty }}</span>
+                            <div class="quantity-controls">
+                                <!-- Miqdor kamaytirish -->
+                                <form method="POST" action="{% url 'shop:decrease_quantity' product_id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="quantity-btn">
+                                        -
+                                    </button>
+                                </form>
+                                
+                                <span class="quantity-display">{{ item.qty }}</span>
+                                
+                                <!-- Miqdor oshirish -->
+                                <form method="POST" action="{% url 'shop:increase_quantity' product_id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="quantity-btn">
+                                        +
+                                    </button>
+                                </form>
+                            </div>
                         </td>
+                        
+                        <!-- UMUMIY -->
                         <td>
-                            <span class="item-total">${{ item.total|floatformat:2 }}</span>
+                            <span class="item-total">{{ item.total|floatformat:0 }} so'm</span>
                         </td>
+                        
+                        <!-- O'CHIRISH -->
                         <td>
                             <form method="POST" action="{% url 'shop:remove_from_cart' product_id %}" style="display: inline;">
                                 {% csrf_token %}
@@ -478,7 +720,7 @@
             
             <div class="summary-row">
                 <span class="summary-label">Oraliq Summa:</span>
-                <span class="summary-value">${{ subtotal|floatformat:2 }}</span>
+                <span class="summary-value">{{ subtotal|floatformat:0 }} so'm</span>
             </div>
             
             <div class="summary-row">
@@ -487,19 +729,19 @@
                     {% if shipping == 0 %}
                     <span style="color: #28a745;">Bepul</span>
                     {% else %}
-                    ${{ shipping|floatformat:2 }}
+                    {{ shipping|floatformat:0 }} so'm
                     {% endif %}
                 </span>
             </div>
             
             <!-- <div class="summary-row">
-                <span class="summary-label">Tax (8%):</span>
-                <span class="summary-value">${{ tax|floatformat:2 }}</span>
+                <span class="summary-label">QQS (8%):</span>
+                <span class="summary-value">{{ tax|floatformat:0 }} so'm</span>
             </div> -->
             
             <div class="summary-row total">
                 <span class="summary-label">Umumiy Miqdor:</span>
-                <span class="summary-value">${{ subtotal|floatformat:2 }}</span>
+                <span class="summary-value">{{ total|floatformat:0 }} so'm</span>
             </div>
             
             {% if shipping == 0 %}
@@ -508,7 +750,7 @@
             </div>
             {% else %}
             <div class="free-shipping-note" style="border-color: #ffc107; background: #fff8e1;">
-                <p>🚚 50 000 so'm yoki undan ko'proq xarid qiling va BEPUL yetkazib berishga ega bo'ling!</p>
+                <p>🚚 50,000 so'm yoki undan ko'proq xarid qiling va BEPUL yetkazib berishga ega bo'ling!</p>
             </div>
             {% endif %}
         </div>
@@ -527,46 +769,62 @@
                     </button>
                 </form>
                 
-                 <!-- TO'LOVGA O'TISH tugmasi -->
-                    {% if cart %}
-                    <a href="{% url 'shop:checkout' %}" class="checkout-btn" style="text-decoration: none;">
+                <!-- TO'LOVGA O'TISH tugmasi -->
+                {% if cart %}
+                <form method="GET" action="{% url 'shop:checkout' %}" style="display: inline;">
+                    <button type="submit" class="checkout-btn">
                         <i class="fas fa-lock"></i> To'lovga o'tish
-                    </a>
-                    {% else %}
-                    <button class="checkout-btn" disabled style="opacity: 0.6; cursor: not-allowed;">
-                        <i class="fas fa-lock"></i> Savat bo'sh
                     </button>
-                    {% endif %}
-                </div>
+                </form>
+                {% else %}
+                <button class="checkout-btn" disabled style="opacity: 0.6; cursor: not-allowed;">
+                    <i class="fas fa-lock"></i> Savat bo'sh
+                </button>
+                {% endif %}
             </div>
         </div>
         {% endif %}
     </div>
 
     <!-- FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 10px;">GreenHerb Online do'koni</h3>
-                    <p style="opacity: 0.8;">2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+    <footer>
+        <div style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                    <div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">GreenHerb Online Do'koni</h3>
+                        <p style="opacity: 0.8; max-width: 400px;">Sog'lom Hayot Uchun Tabiiy Mahsulotlar. 2020-yildan beri 100% tabiiy dorivor o'simlik mahsulotlarini taqdim etib kelmoqdamiz.</p>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
-                <div style="display: flex; gap: 15px;">
-                    
-                    <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    
+                
+                <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p>© 2026 GreenHerb Store. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
                 </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.cart-item-image');
+            images.forEach(img => {
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    const fallback = this.nextElementSibling;
+                    if (fallback && fallback.classList.contains('image-fallback')) {
+                        fallback.style.display = 'flex';
+                    }
+                };
+            });
+        });
+    </script>
 </body>
 </html>
