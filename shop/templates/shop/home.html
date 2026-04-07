@@ -694,17 +694,14 @@
         <div class="products-grid">
             {% for herbal in herbals|slice:":6" %}
             <div class="product-card">
-                <!-- RASM: product detail ga link -->
+                
                 <a href="{% url 'shop:product_detail' herbal.id %}" class="product-image-link">
-                    <!-- YANGI: modeldagi get_image_url() methodidan foydalanish -->
-                    <img src="{{ herbal.get_image_url }}" 
-                         alt="{{ herbal.name }}"
-                         class="product-image"
-                         onerror="this.onerror=null; this.src='{% static 'images/default-product.jpg' %}';">
+                    <img src="/static/{{ herbal.image.url }}" alt="{{ herbal.name }}" class="product-image"
+                        onerror="this.onerror=null; this.src='{% static 'images/herbals/default_product.jpg' %}';">
                 </a>
                 
                 <div class="product-content">
-                    <!-- NOM: product detail ga link -->
+                    
                     <a href="{% url 'shop:product_detail' herbal.id %}" class="product-title-link">
                         <h3>{{ herbal.name }}</h3>
                     </a>

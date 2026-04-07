@@ -6,7 +6,7 @@ class Herbal(models.Model):
     description = models.TextField(verbose_name="Tavsif")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Narx")
     image = models.ImageField(
-        upload_to='herbals/',
+        upload_to='images/herbals/',
         verbose_name="Mahsulot rasmi",
         help_text="Rasmni yuklang (JPG, PNG formatida)",
         blank=True,
