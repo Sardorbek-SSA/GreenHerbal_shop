@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <style type="text/plain">
         /* Track Order Styles */
         .track-container {
             max-width: 900px;
@@ -557,12 +557,12 @@
             <span></span>
         </button>
         <div class="nav-container" id="navContainer">
-            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Products</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="{% url 'shop:my_orders' %}" class="active"><i class="fas fa-clipboard-list"></i> Orders</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> About</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Contact</a>
         </div>
     </nav>
 

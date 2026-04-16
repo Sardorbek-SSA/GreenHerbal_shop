@@ -174,31 +174,6 @@
             font-size: 1.4rem;
         }
         
-        .social-links {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            background: #f8fbf9;
-            border-radius: 10px;
-            color: #2f6f4e;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 1px solid #e8f4ee;
-        }
-        
-        .social-link:hover {
-            background: #2f6f4e;
-            color: white;
-            transform: translateY(-3px);
-        }
-        
         /* Contact Form */
         .contact-form-card {
             background: white;
@@ -459,12 +434,12 @@
             <span></span>
         </button>
         <div class="nav-container" id="navContainer">
-            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-            <a href="{% url 'shop:contact' %}" class="active"><i class="fas fa-envelope"></i> Bog'lanish</a>
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Products</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Orders</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> About</a>
+            <a href="{% url 'shop:contact' %}" class="active"><i class="fas fa-envelope"></i> Contact</a>
         </div>
     </nav>
 

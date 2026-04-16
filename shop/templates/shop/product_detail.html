@@ -287,23 +287,6 @@
             box-shadow: 0 0 0 3px rgba(47, 111, 78, 0.1);
         }
         
-        .add-to-cart-btn {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            margin-top: 10px;
-        }
         
         .add-to-cart-btn:hover {
             transform: translateY(-3px);
@@ -406,7 +389,7 @@
             color: white;
         }
         
-        /* Footer */
+        /* Product Detail Page Footer */
         .product-footer {
             margin-top: 80px;
             padding-top: 40px;
@@ -426,7 +409,7 @@
             margin-bottom: 15px;
         }
         
-        .footer-links {
+        .product-footer .footer-links {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -434,7 +417,7 @@
             flex-wrap: wrap;
         }
         
-        .footer-links a {
+        .product-footer .footer-links a {
             color: #2f6f4e;
             text-decoration: none;
             padding: 8px 16px;
@@ -443,69 +426,11 @@
             transition: all 0.3s ease;
         }
         
-        .footer-links a:hover {
+        .product-footer .footer-links a:hover {
             background: #e8f4ee;
             border-color: #2f6f4e;
         }
 
-        /* ====== FOOTER ====== */
-        footer {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 40px 20px;
-            margin-top: 80px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .footer-brand p {
-            opacity: 0.8;
-            max-width: 400px;
-            line-height: 1.5;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-        
-        .social-links a:hover {
-            background: white;
-            color: #2f6f4e;
-            transform: translateY(-3px);
-        }
-        
         .footer-links-bottom {
             display: flex;
             flex-wrap: wrap;
@@ -528,12 +453,6 @@
             color: #e8f4ee;
             text-decoration: underline;
         }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            opacity: 0.8;
-        }
 
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
@@ -548,40 +467,9 @@
             .product-price-tag {
                 font-size: 1.8rem;
             }
-            
-            .nav-container {
-                flex-wrap: wrap;
-                justify-content: space-around;
-                padding: 0 5px;
-            }
-            
-            nav a {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-                margin: 2px;
-                flex: 1;
-                min-width: 120px;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .footer-main {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .footer-links-bottom {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
         }
 
         @media (max-width: 480px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            
             .product-title {
                 font-size: 1.7rem;
             }
@@ -589,17 +477,6 @@
             .product-price-tag {
                 font-size: 1.5rem;
                 padding: 10px;
-            }
-            
-            nav a {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-                min-width: 100px;
-            }
-            
-            nav a i {
-                font-size: 0.9rem;
-                margin-right: 3px;
             }
             
             .product-main-layout {
@@ -631,12 +508,12 @@
             <span></span>
         </button>
         <div class="nav-container" id="navContainer">
-            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'shop:product_list' %}" class="active"><i class="fas fa-leaf"></i> Products</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Orders</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> About</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Contact</a>
         </div>
     </nav>
 
