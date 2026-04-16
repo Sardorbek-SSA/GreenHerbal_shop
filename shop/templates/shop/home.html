@@ -8,111 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ====== GLOBAL STYLES ====== */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fbf9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ====== HEADER & NAVIGATION ====== */
-        header {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        /* NAVIGATION - barcha sahifalar uchun bir xil */
-        nav {
-            background: #f8f9fa;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 0 10px;
-        }
-
-        nav a {
-            color: #2f6f4e;
-            text-decoration: none;
-            padding: 12px 20px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            background: #2f6f4e;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            background: #2f6f4e;
-            color: white;
-        }
-
-        nav a i {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* ====== HERO SECTION ====== */
+        /* ====== HOME PAGE SPECIFIC STYLES ====== */
         .hero {
             background: linear-gradient(rgba(47, 111, 78, 0.9), rgba(47, 111, 78, 0.8)), url('https://images.unsplash.com/photo-1585771724684-382b4b4f5d53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 100px 20px;
-            text-align: center;
-            margin-bottom: 50px;
-            border-radius: 0 0 20px 20px;
-            position: relative;
-            overflow: hidden;
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
@@ -121,510 +23,6 @@
             right: 0;
             bottom: 0;
             background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            opacity: 0.95;
-            line-height: 1.6;
-        }
-        
-        .hero-btn {
-            display: inline-block;
-            background: white;
-            color: #2f6f4e;
-            padding: 15px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .hero-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            background: #e8f4ee;
-        }
-        
-        /* ====== FEATURES SECTION ====== */
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 60px 0;
-            flex-wrap: wrap;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 25px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            flex: 1;
-            min-width: 250px;
-            max-width: 300px;
-            transition: all 0.3s ease;
-        }
-        
-        .feature:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(47, 111, 78, 0.15);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            color: #2f6f4e;
-            margin-bottom: 20px;
-        }
-        
-        .feature h3 {
-            color: #2f6f4e;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        
-        /* ====== SECTION HEADER ====== */
-        .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .section-header h2 {
-            display: inline-block;
-            font-size: 2.5rem;
-            color: #2f6f4e;
-            padding-bottom: 15px;
-            position: relative;
-        }
-        
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, #2f6f4e, #3c8a5f);
-            border-radius: 2px;
-        }
-        
-        .section-subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 15px auto 0;
-            line-height: 1.6;
-        }
-        
-        /* ====== PRODUCTS GRID ====== */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-        
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(47, 111, 78, 0.15);
-        }
-        
-        .product-image-link {
-            display: block;
-            height: 220px;
-            overflow: hidden;
-            text-decoration: none;
-        }
-        
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .product-card:hover .product-image {
-            transform: scale(1.1);
-        }
-        
-        .product-content {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .product-title-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .product-card h3 {
-            margin: 0 0 10px 0;
-            color: #2f6f4e;
-            font-size: 1.3rem;
-            font-weight: 600;
-            line-height: 1.3;
-            transition: color 0.3s ease;
-        }
-        
-        .product-card h3:hover {
-            color: #3c8a5f;
-            text-decoration: underline;
-        }
-        
-        .product-card p {
-            color: #666;
-            margin: 0 0 15px 0;
-            line-height: 1.5;
-            font-size: 0.95rem;
-            flex-grow: 1;
-        }
-        
-        .product-price {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #2f6f4e;
-            margin: 10px 0 15px;
-        }
-        
-        .product-card form {
-            margin-top: auto;
-        }
-        
-        .add-to-cart-btn {
-            display: inline-block;
-            width: 100%;
-            background: #2f6f4e;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-size: 1rem;
-        }
-        
-        .add-to-cart-btn:hover {
-            background: #3c8a5f;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(47, 111, 78, 0.2);
-        }
-        
-        .add-to-cart-btn i {
-            margin-right: 8px;
-        }
-        
-        /* ====== TESTIMONIALS ====== */
-        .testimonials {
-            background: linear-gradient(135deg, #f8fbf9 0%, #e8f4ee 100%);
-            padding: 60px 20px;
-            margin: 60px 0;
-            border-radius: 20px;
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .testimonial {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 20px;
-            color: #555;
-            line-height: 1.6;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .testimonial-author img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .testimonial-author h4 {
-            color: #2f6f4e;
-            margin-bottom: 5px;
-        }
-        
-        /* ====== NEWSLETTER ====== */
-        .newsletter {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 50px 20px;
-            border-radius: 20px;
-            text-align: center;
-            margin: 60px 0;
-        }
-        
-        .newsletter h3 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-        
-        .newsletter p {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
-        
-        .newsletter-form {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-            gap: 10px;
-        }
-        
-        .newsletter-form input {
-            flex-grow: 1;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-        }
-        
-        .newsletter-form button {
-            background: white;
-            color: #2f6f4e;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .newsletter-form button:hover {
-            background: #e8f4ee;
-            transform: translateY(-3px);
-        }
-        
-        /* ====== FOOTER ====== */
-        footer {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 40px 20px;
-            margin-top: 80px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .footer-brand p {
-            opacity: 0.8;
-            max-width: 400px;
-            line-height: 1.5;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-        
-        .social-links a:hover {
-            background: white;
-            color: #2f6f4e;
-            transform: translateY(-3px);
-        }
-        
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            justify-content: center;
-            margin: 30px 0;
-            padding: 30px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .footer-links a:hover {
-            color: #e8f4ee;
-            text-decoration: underline;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            opacity: 0.8;
-        }
-        
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 70px 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .section-header h2 {
-                font-size: 2rem;
-            }
-            
-            .features {
-                gap: 20px;
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
-            }
-            
-            .nav-container {
-                flex-wrap: wrap;
-                justify-content: space-around;
-                padding: 0 5px;
-            }
-            
-            nav a {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-                margin: 2px;
-                flex: 1;
-                min-width: 120px;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .newsletter-form input,
-            .newsletter-form button {
-                width: 100%;
-            }
-            
-            .footer-main {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .section-header h2 {
-                font-size: 1.7rem;
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            nav a {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-                min-width: 100px;
-            }
-            
-            nav a i {
-                font-size: 0.9rem;
-                margin-right: 3px;
-            }
         }
     </style>
 </head>
@@ -635,9 +33,14 @@
         <p>Sog'lom Hayot Uchun Tabiiy O'simlik Preparatlari</p>
     </header>
 
-    <!-- NAVIGATION - products.html dagi kabi -->
+    <!-- NAVIGATION -->
     <nav>
-        <div class="nav-container">
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-container" id="navContainer">
             <a href="{% url 'shop:home' %}" class="active"><i class="fas fa-home"></i> Bosh Sahifa</a>
             <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
             <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
@@ -667,7 +70,7 @@
                 <h3>100% Tabiiy</h3>
                 <p>Sun'iy qo'shimchalarsiz toza o'simlik ingredientlari</p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="fas fa-award"></i>
@@ -675,7 +78,7 @@
                 <h3>Yuqori Sifat</h3>
                 <p>Ishonchli Manbalardan Sertifikatlangan Organik Giyohlar</p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="fas fa-truck"></i>
@@ -694,21 +97,19 @@
         <div class="products-grid">
             {% for herbal in herbals|slice:":6" %}
             <div class="product-card">
-                
                 <a href="{% url 'shop:product_detail' herbal.id %}" class="product-image-link">
-                    <img src="/static/{{ herbal.image.url }}" alt="{{ herbal.name }}" class="product-image"
-                        onerror="this.onerror=null; this.src='{% static 'images/herbals/default_product.jpg' %}';">
+                    <img src="{{ herbal.get_image_url }}" alt="{{ herbal.name }}" class="product-image"
+                        onerror="this.onerror=null; this.src='{% static 'images/default-product.jpg' %}';">
                 </a>
-                
+
                 <div class="product-content">
-                    
                     <a href="{% url 'shop:product_detail' herbal.id %}" class="product-title-link">
                         <h3>{{ herbal.name }}</h3>
                     </a>
-                    
+
                     <p>{{ herbal.description|truncatechars:100 }}</p>
                     <div class="product-price">{{ herbal.price|floatformat:0 }} so'm</div>
-                    
+
                     <form method="POST" action="{% url 'shop:add_to_cart' herbal.id %}">
                         {% csrf_token %}
                         <button type="submit" class="add-to-cart-btn">
@@ -731,47 +132,47 @@
             {% endfor %}
         </div>
 
-        <!-- Barcha mahsulotlarni ko'rish tugmasi -->
+        <!-- View All Button -->
         <div style="text-align: center; margin: 40px 0;">
-            <a href="{% url 'shop:product_list' %}" class="hero-btn" style="display: inline-block;">
+            <a href="{% url 'shop:product_list' %}" class="hero-btn" style="display: inline-flex; gap: 10px; align-items: center;">
                 <i class="fas fa-list"></i> Barcha Mahsulotlarni Ko'rish
             </a>
         </div>
 
         <!-- TESTIMONIALS -->
-        <section class="testimonials">
+        <section class="testimonials-section">
             <div class="section-header">
                 <h2>Mijozlar Fikrlari</h2>
                 <p class="section-subtitle">Mijozlarimiz o'simlik mahsulotlari haqida nima deyishlarini ko'ring</p>
             </div>
-            
+
             <div class="testimonial-grid">
-                <div class="testimonial">
+                <div class="testimonial-card">
                     <p class="testimonial-text">"GreenHerb mahsulotlari hayotimni o'zgartirdi! Men yillar davomida uyqu muammolari bilan kurashdim va ularning romashka choyi menga yordam berdi."</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/57.jpg" alt="Sarah Johnson">
+                        <img src="https://randomuser.me/api/portraits/women/57.jpg" alt="Sarah Johnson" class="testimonial-avatar">
                         <div>
                             <h4>Munisaxon Ibragimova</h4>
                             <p>2 yillik mijoz</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="testimonial">
+
+                <div class="testimonial-card">
                     <p class="testimonial-text">"Sifati ajoyib. Men bu sof o'simlik qo'shimchalari bilan do'kon brendlari bilan solishtirganda ancha farqni his qildim."</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Yahyobek Isroilov">
+                        <img src="https://randomuser.me/api/portraits/men/40.jpg" alt="Yahyobek Isroilov" class="testimonial-avatar">
                         <div>
                             <h4>Yahyobek Isroilov</h4>
                             <p>Salomatlik bo'yicha murabbiy</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="testimonial">
+
+                <div class="testimonial-card">
                     <p class="testimonial-text">"Tez yetkazib berish va mijozlarga ajoyib xizmat ko'rsatish. Mening butun oilam bilan GreenHerb mahsulotlarini kundalik salomatlik uchun ishlatamiz."</p>
                     <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/31.jpg" alt="Dilafruzxon Sharipova">
+                        <img src="https://randomuser.me/api/portraits/women/31.jpg" alt="Dilafruzxon Sharipova" class="testimonial-avatar">
                         <div>
                             <h4>Dilafruzxon Sharipova</h4>
                             <p>4ta farzand onasi</p>
@@ -782,13 +183,15 @@
         </section>
 
         <!-- NEWSLETTER -->
-        <section class="newsletter">
-            <h3>Salomatlik Hamjamiyatimizga Qo'shiling</h3>
-            <p>Tabiiy o'simlik preparatlari bo'yicha maslahatlar, retseptlar va eksklyuziv takliflarni olish uchun obuna bo'ling</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Elektron pochtangizni kiriting" required>
-                <button type="submit">Obuna Bo'lish</button>
-            </form>
+        <section class="newsletter-section">
+            <div class="newsletter-content">
+                <h3>Salomatlik Hamjamiyatimizga Qo'shiling</h3>
+                <p>Tabiiy o'simlik preparatlari bo'yicha maslahatlar, retseptlar va eksklyuziv takliflarni olish uchun obuna bo'ling</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Elektron pochtangizni kiriting" required>
+                    <button type="submit">Obuna Bo'lish</button>
+                </form>
+            </div>
         </section>
     </div>
 
@@ -809,7 +212,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-links">
                 <a href="{% url 'shop:home' %}">Bosh Sahifa</a>
                 <a href="{% url 'shop:product_list' %}">Mahsulotlar</a>
@@ -819,7 +222,7 @@
                 <a href="#">Maxfiylik Siyosati</a>
                 <a href="#">Xizmat Ko'rsatish Shartlari</a>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>© 2026 GreenHerb Store | 100% Tabiiy Mahsulotlar</p>
             </div>
@@ -827,7 +230,27 @@
     </footer>
 
     <script>
-        // Agar rasm yuklanmasa, default rasmni ko'rsatish
+        // Hamburger Menu Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navContainer = document.getElementById('navContainer');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navContainer.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked
+            const navLinks = navContainer.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navToggle.classList.remove('active');
+                    navContainer.classList.remove('active');
+                });
+            });
+        }
+
+        // Handle product images
         document.addEventListener('DOMContentLoaded', function() {
             const images = document.querySelectorAll('.product-image');
             images.forEach(img => {

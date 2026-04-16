@@ -7,97 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Global Styles */
-        * {
-            box-sizing: border-box;
-        }
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>GreenHerb Store</h1>
+        <p>Sog'lom Hayot Uchun Tabiiy Preparatlar</p>
+    </header>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fbf9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* HEADER & NAVIGATION - home.html dagi kabi */
-        header {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        /* NAVIGATION - home.html dagi kabi bir xil */
-        nav {
-            background: #f8f9fa;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 0 10px;
-        }
-
-        nav a {
-            color: #2f6f4e;
-            text-decoration: none;
-            padding: 12px 20px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            background: #2f6f4e;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            background: #2f6f4e;
-            color: white;
-        }
-
-        nav a i {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
+    <!-- NAVIGATION -->
+    <nav>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-container" id="navContainer">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}" class="active"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}"><i class="fas fa-envelope"></i> Bog'lanish</a>
+        </div>
+    </nav>
 
         /* Cart page specific styles */
         .cart-container {
@@ -813,6 +746,27 @@
     </footer>
 
     <script>
+        // Hamburger Menu Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navContainer = document.getElementById('navContainer');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navContainer.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked
+            const navLinks = navContainer.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navToggle.classList.remove('active');
+                    navContainer.classList.remove('active');
+                });
+            });
+        }
+
+        // Cart functionality
         document.addEventListener('DOMContentLoaded', function() {
             const images = document.querySelectorAll('.cart-item-image');
             images.forEach(img => {

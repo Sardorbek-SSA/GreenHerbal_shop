@@ -8,175 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ====== GLOBAL STYLES ====== */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fbf9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ====== HEADER & NAVIGATION ====== */
-        header {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        /* NAVIGATION */
-        nav {
-            background: #f8f9fa;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 5px;
-        }
-
-        nav a {
-            color: #2f6f4e;
-            text-decoration: none;
-            padding: 12px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            background: #2f6f4e;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            background: #2f6f4e;
-            color: white;
-        }
-
-        nav a i {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* NAVIGATION BUTTONS */
-        .nav-buttons {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 20px;
-        }
-
-        .nav-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #2f6f4e;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .nav-btn:hover {
-            background: #3c8a5f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(47, 111, 78, 0.3);
-        }
-
-        .nav-btn i {
-            font-size: 1rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .nav-buttons {
-                margin-left: 0;
-                margin-top: 10px;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .nav-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            nav a {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-            }
-            
-            nav a i {
-                font-size: 0.9rem;
-                margin-right: 3px;
-            }
-        }
-
         /* Contact Page Styles */
         .contact-container {
             max-width: 1200px;
@@ -213,6 +44,16 @@
             z-index: 2;
             max-width: 800px;
             margin: 0 auto;
+        }
+
+        .hero-action {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .hero-action .submit-btn {
+            width: auto;
+            display: inline-flex;
         }
         
         .contact-hero h1 {
@@ -610,17 +451,20 @@
         <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
     </header>
 
-    <!-- NAVIGATION  -->
+    <!-- NAVIGATION -->
     <nav>
-        <div class="nav-container">
-            <div class="nav-links">
-                <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
-                <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
-                <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
-                <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
-                <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
-                <a href="{% url 'shop:contact' %}" class="active"><i class="fas fa-envelope"></i> Bog'lanish</a>
-            </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-container" id="navContainer">
+            <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
+            <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
+            <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
+            <a href="{% url 'shop:my_orders' %}"><i class="fas fa-clipboard-list"></i> Buyurtmalarim</a>
+            <a href="{% url 'shop:about' %}"><i class="fas fa-info-circle"></i> Biz Haqimizda</a>
+            <a href="{% url 'shop:contact' %}" class="active"><i class="fas fa-envelope"></i> Bog'lanish</a>
         </div>
     </nav>
 
@@ -630,8 +474,8 @@
             <div class="contact-hero-content">
                 <h1>Bog'lanish</h1>
                 <p>Sog'lom hayot sari yo'lingizda sizga yordam berish uchun shu yerdamiz. Har qanday savol yoki sog'liqda muommolar bo'lsa, biz bilan bog'laning</p>
-                <div style="margin-top: 40px;">
-                    <a href="#contact-form" class="submit-btn" style="width: auto; display: inline-block;">
+                <div class="hero-action">
+                    <a href="#contact-form" class="submit-btn">
                         <i class="fas fa-paper-plane"></i> Xabar Yozish
                     </a>
                 </div>
@@ -849,12 +693,12 @@
     </div>
 
     <!-- FOOTER -->
-    <footer style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 50px 20px; margin-top: 80px;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                <div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Online do'koni</h3>
-                    <p style="opacity: 0.9; font-size: 1.1rem;">Tabiiy dorivor o'simliklar bo'yicha ishonchli manbangiz</p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>GreenHerb Online do'koni</h3>
+                    <p>Tabiiy dorivor o'simliklar bo'yicha ishonchli manbangiz</p>
                 </div>
                 <div style="display: flex; gap: 20px;">
                     <a href="{% url 'shop:home' %}" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease;">
@@ -868,7 +712,6 @@
                     </a>
                 </div>
             </div>
-            
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
                 <div>
                     <h4 style="font-size: 1.2rem; margin-bottom: 15px;">Mijozlarni Qo'llab-quvvatlash</h4>
@@ -924,11 +767,27 @@
                     </div>
                 </div>
             </div>
-            
-            <div style="text-align: center; padding-top: 30px; border-top: 2px solid rgba(255,255,255,0.2);">
-                <p style="font-size: 1.1rem;">© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+            <div class="footer-bottom">
+                <p>© 2026 GreenHerb Online do'koni. Barcha xuquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
             </div>
         </div>
     </footer>
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navContainer = document.getElementById('navContainer');
+        if (navToggle) {
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navContainer.classList.toggle('active');
+            });
+            const navLinks = navContainer.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navToggle.classList.remove('active');
+                    navContainer.classList.remove('active');
+                });
+            });
+        }
+    </script>
 </body>
 </html>

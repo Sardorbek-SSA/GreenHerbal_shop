@@ -8,132 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Global Styles */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fbf9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* HEADER & NAVIGATION - boshqa sahifalar bilan bir xil */
-        header {
-            background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        /* NAVIGATION - boshqa sahifalar bilan bir xil */
-        nav {
-            background: #f8f9fa;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 0 10px;
-        }
-
-        nav a {
-            color: #2f6f4e;
-            text-decoration: none;
-            padding: 12px 20px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        nav a:hover {
-            background: #2f6f4e;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            background: #2f6f4e;
-            color: white;
-        }
-
-        nav a i {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Responsive Navigation */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-wrap: wrap;
-                justify-content: space-around;
-                padding: 0 5px;
-            }
-            
-            nav a {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-                margin: 2px;
-                flex: 1;
-                min-width: 120px;
-                text-align: center;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            nav a {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-                min-width: 100px;
-            }
-            
-            nav a i {
-                font-size: 0.9rem;
-            }
-        }
-
         /* My Orders Styles */
         .orders-container {
             max-width: 1200px;
@@ -356,6 +230,11 @@
         .detail-value {
             color: #2f6f4e;
             font-weight: 600;
+        }
+
+        .detail-value.highlight {
+            color: #d32f2f;
+            font-weight: bold;
         }
         
         .products-count {
@@ -599,7 +478,12 @@
 
     <!-- NAVIGATION - boshqa sahifalar bilan bir xil, my_orders uchun active -->
     <nav>
-        <div class="nav-container">
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-container" id="navContainer">
             <a href="{% url 'shop:home' %}"><i class="fas fa-home"></i> Bosh Sahifa</a>
             <a href="{% url 'shop:product_list' %}"><i class="fas fa-leaf"></i> Mahsulotlar</a>
             <a href="{% url 'shop:cart_view' %}"><i class="fas fa-shopping-cart"></i> Savat</a>
@@ -730,7 +614,7 @@
                         
                         <div class="detail-row">
                             <span class="detail-label">Umumiy summa:</span>
-                            <span class="detail-value" style="color: #d32f2f; font-weight: bold;">
+                            <span class="detail-value highlight">
                                 {{ order.total|floatformat:0 }} so'm
                             </span>
                         </div>
@@ -792,26 +676,23 @@
 
     <!-- FOOTER - boshqa sahifalar bilan bir xil -->
     <footer>
-        <div style="background: linear-gradient(135deg, #2f6f4e 0%, #3c8a5f 100%); color: white; padding: 40px 20px; margin-top: 80px;">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
-                    <div>
-                        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">GreenHerb Online Do'koni</h3>
-                        <p style="opacity: 0.9; font-size: 1.1rem;">Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
-                    </div>
-                    <div style="display: flex; gap: 15px;">
-                        <a href="https://t.me/sardorize" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="https://instagram.com/sardorize_" style="color: white; text-decoration: none; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>GreenHerb Online Do'koni</h3>
+                    <p>Sog'lom Hayot Uchun Tabiiy Mahsulotlar</p>
                 </div>
-                
-                <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                    <p>© 2026 GreenHerb Store. Barcha huquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
+                <div class="social-links">
+                    <a href="https://t.me/sardorize" title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://instagram.com/sardorize_" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 GreenHerb Store. Barcha huquqlar himoyalangan. | 100% Tabiiy Mahsulotlar</p>
             </div>
         </div>
     </footer>
@@ -857,5 +738,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });    
 </script>
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navContainer = document.getElementById('navContainer');
+        if (navToggle) {
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navContainer.classList.toggle('active');
+            });
+            const navLinks = navContainer.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navToggle.classList.remove('active');
+                    navContainer.classList.remove('active');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
